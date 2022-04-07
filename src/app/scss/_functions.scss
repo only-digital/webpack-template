@@ -1,0 +1,45 @@
+@use "sass:math";
+
+@function cols($value) {
+    @return $col-width * $value;
+}
+
+// Контентная часть(18 колонок), поделённая на 24 колонки
+@function cols-inner($value) {
+    @return $value * (($col-width * 18) / 24);
+}
+
+@function smooth-value($firstValue, $secondValue, $firstPoint, $secondPoint, $dimension) {
+    @return calc(
+        #{$firstValue}px
+        + (#{$secondValue} - #{$firstValue})
+        * (100v#{$dimension} - #{$firstPoint}px)
+        / (#{$secondPoint} - #{$firstPoint})
+    );
+}
+
+@function vw($value, $base: 1920) {
+    @return $value / $base * 100vw;
+}
+
+@function vh($value, $base: 1080) {
+    @if ($base == $mobile-base-height) {
+        @return #{$value}px;
+    }
+    @return $value / $base * 100vh;
+}
+
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+    @return $number;
+}
+
+@function unit($size, $root-font-size: 16) {
+    @return ($size / $root-font-size);
+}
+
+@function rem($size, $root-font-size: 16) {
+    @return  unit($size, $root-font-size) * 1rem;
+}

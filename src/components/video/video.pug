@@ -1,0 +1,21 @@
+mixin video(props)
+    -
+        var baseAttributes = {
+            preload: props.preload || 'metadata',
+            playsinline: '',
+            muted: props.muted  ? '' : null,
+            loop: props.loop ? '' : null,
+            autoplay: props.autoplay ? '' : null
+        }
+        Object.keys(baseAttributes).forEach(attribute => {
+            if (attribute in props && !props[attribute]) {
+                delete baseAttributes[attribute];
+            }
+        });
+        Object.assign(attributes, baseAttributes);
+
+
+    video.video&attributes(attributes)(
+        poster= props.poster ? props.poster: null 
+        src= props.onlyDesktop ? null : props.path 
+        data-src = props.onlyDesktop ? props.path : null)

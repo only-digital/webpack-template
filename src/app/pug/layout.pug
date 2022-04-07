@@ -1,0 +1,17 @@
+include ./mixins
+include ./components
+
+<!DOCTYPE html>
+html(lang="ru")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title
+            block title
+
+        script(type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=Element.prototype.closest%2CElement.prototype.dataset%2CElement.prototype.classList%2CDOMTokenList%2CCustomEvent%2CElement.prototype.remove")
+
+    body(data-barba="wrapper")
+        +header
+        block content
+        +footer({ data: dataJson.footer })

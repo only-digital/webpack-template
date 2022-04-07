@@ -1,0 +1,9 @@
+extends ../../app/pug/layout
+
+block title
+    | Сибур — Главная
+
+block content
+    div(data-barba="container" data-barba-namespace="common" data-page-namespace="index")
+        div.h-1!= dataJson.index.title
+        +spoiler

@@ -1,0 +1,180 @@
+html {
+    font-family: $font-roboto;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    //height: 100%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    //height: 100%;
+    padding: 0;
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+h1, h2, h3, h4, h5, p, a {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-decoration: inherit;
+    padding: 0;
+    margin: 0;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+input {
+    border: none;
+    background: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    -webkit-appearance: none;
+    color: inherit;
+
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &::placeholder {
+        letter-spacing: -0.02em;
+    }
+}
+
+button {
+    background: transparent;
+    border: none;
+    font-family: $font-roboto;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}
+
+[data-barba="container"] {
+    position: relative;
+}
+
+.object-fit {
+    &-cover {
+        object-fit: cover;
+    }
+}
+
+.barba-leave-active,
+.barba-enter-active {
+    transition: opacity .3s ease;
+}
+
+.barba-leave,
+.barba-enter-to {
+    opacity: 1;
+}
+
+.barba-enter,
+.barba-leave-to {
+    opacity: 0;
+}
+
+[data-modal] {
+    cursor: pointer;
+}
+
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    -webkit-clip-path: inset(100%);
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+
+    @media print {
+        position: relative;
+        width: auto;
+        height: auto;
+        margin: 0;
+        white-space: normal;
+        -webkit-clip-path: none;
+        clip-path: none;
+        overflow: visible;
+    }
+}
+
+@media print { /*для печати*/
+    html {
+        height: 100%;
+        overflow: auto;
+    }
+
+    body {
+        height: auto;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+}
+
+.desktop-none {
+    @include media-breakpoint-up(xl) {
+        display: none !important;
+    }
+}
+
+.mobile-none {
+    @include media-breakpoint-down(xl) {
+        display: none !important;
+    }
+}
+
+.image-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        will-change: transform;
+
+        @include media-breakpoint-up(md) {
+            object-position: center;
+        }
+    }
+}
