@@ -8,6 +8,7 @@
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
         "resolveJsonModule": true,
-        "typeRoots": ["./src/app/type-declarations", "./node_modules/@types"]
+        "typeRoots": [
+            "./src/app/types", "./node_modules/@types"]
     }
 }

@@ -1,17 +1,9 @@
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, pluck } from 'rxjs/operators';
 import Swiper from 'swiper';
-import { isArray } from 'node:util';
 import cookie from 'cookie';
 import Bowser from 'bowser';
-
-export const BREAKPOINT_SM = 640;
-export const BREAKPOINT_MD = 768;
-export const BREAKPOINT_LG = 1024;
-export const BREAKPOINT_XL = 1280;
-export const BREAKPOINT_FHD = 1536;
-export const MAX_SEARCH_HISTORY = 8;
-export const DEBOUNCE_INTERVAL_MS = 150;
+import { BREAKPOINTS } from './variables';
 
 export enum cookiesTypes {
     acceptAnalytics = 'acceptAnalytics',
@@ -27,7 +19,7 @@ export const resize = (callback: (e: Window) => void, timeout = 200) =>
 export const resizeWindow = (
     desktopCallback: (e: Window) => void,
     mobileCallback: (e: Window) => void,
-    breakpoint: number = BREAKPOINT_XL
+    breakpoint: number = BREAKPOINTS.LG,
 ) => {
     const callback = () =>
         window.matchMedia(`(min-width: ${breakpoint}px)`).matches

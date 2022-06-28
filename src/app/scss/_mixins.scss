@@ -1,30 +1,12 @@
-$breakponts: (
-    //xs: 320px,
-    sm: 375px,
-    md: 768px,
-    xl: 1280px,
-    xxl: 1440px,
-    //xxxl: 1601px,
-    fhd: 1920px,
-);
-
-@mixin media-breakpoint-up($name, $px: 0) {
-    @each $breakpoint-name, $resolution in $breakponts {
-        @if $name == $breakpoint-name {
-            @media (min-width: $resolution + $px) {
-                @content;
-            }
-        }
+@mixin media-breakpoint-up($name) {
+    @media (min-width: #{map-get($breakpoints, $name)}px) {
+        @content;
     }
 }
 
-@mixin media-breakpoint-down($name, $px: 0) {
-    @each $breakpoint-name, $resolution in $breakponts {
-        @if $name == $breakpoint-name {
-            @media (max-width: $resolution + $px) {
-                @content;
-            }
-        }
+@mixin media-breakpoint-down($name) {
+    @media (max-width: #{map-get($breakpoints, $name) - 1}px) {
+        @content;
     }
 }
 
@@ -59,7 +41,7 @@ $breakponts: (
 
 
     @media (min-width: 370px) {
-        #{$property}: calc(#{$min-size-rem} + (#{strip-unit($tablet-size-rem)} - #{strip-unit($min-size-rem)}) * 
+        #{$property}: calc(#{$min-size-rem} + (#{strip-unit($tablet-size-rem)} - #{strip-unit($min-size-rem)}) *
                         ((100vw - #{rem(370)}) / (767 - 370)));
         @media (max-height: 500px) {
             #{$property}: $min-size-rem;
@@ -72,22 +54,22 @@ $breakponts: (
                         ((100vw - #{rem(767)}) / (1280 - 767)));
 
         @media (max-height: 500px) {
-            #{$property}: calc(#{$min-size-rem} + ((#{strip-unit($max-size-rem)} * 0.7) - #{strip-unit($min-size-rem)}) * 
+            #{$property}: calc(#{$min-size-rem} + ((#{strip-unit($max-size-rem)} * 0.7) - #{strip-unit($min-size-rem)}) *
             ((100vw - #{rem(767)}) / (1280 - 767)));
         }
     }
 
     //min desk
     @media (min-width: 1280px) {
-        #{$property}: calc(#{$smalDesk-size-rem} + (#{strip-unit($max-size-rem)} - #{strip-unit($smalDesk-size-rem)}) * 
+        #{$property}: calc(#{$smalDesk-size-rem} + (#{strip-unit($max-size-rem)} - #{strip-unit($smalDesk-size-rem)}) *
                         ((100vw - #{rem(1280)}) / (1920 - 1280)));
 
 
         @media (max-height: 500px) {
-            #{$property}: calc(#{$min-size-rem} + ((#{strip-unit($max-size-rem)} * 0.7) - #{strip-unit($min-size-rem)}) * 
+            #{$property}: calc(#{$min-size-rem} + ((#{strip-unit($max-size-rem)} * 0.7) - #{strip-unit($min-size-rem)}) *
             ((100vw - #{rem(767)}) / (1920 - 767)));
         }
-            
+
     }
 
     // больше 1920
