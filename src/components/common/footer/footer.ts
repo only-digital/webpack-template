@@ -1,4 +1,4 @@
-import Component, { ComponentProps } from '../../app/js/component';
+import Component, { ComponentProps } from '../../../app/js/component';
 
 export default class Footer extends Component {
     constructor(element: ComponentProps) {

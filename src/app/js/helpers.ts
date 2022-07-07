@@ -2,8 +2,7 @@ import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, pluck } from 'rxjs/operators';
 import Swiper from 'swiper';
 import cookie from 'cookie';
-import Bowser from 'bowser';
-import { BREAKPOINTS } from './variables';
+import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from './variables';
 
 export enum cookiesTypes {
     acceptAnalytics = 'acceptAnalytics',
@@ -76,10 +75,10 @@ export const unlisten = (
 export const isTouchDevice = (): boolean => 'ontouchstart' in document;
 
 export const getDeviceType = () => {
-    if (window.matchMedia(`(min-width: ${BREAKPOINT_LG}px)`).matches) {
+    if (window.matchMedia(`(min-width: ${BREAKPOINTS.LG}px)`).matches) {
         return 'desktop';
     }
-    if (window.matchMedia(`(min-width: ${BREAKPOINT_MD}px)`).matches) {
+    if (window.matchMedia(`(min-width: ${BREAKPOINTS.MD}px)`).matches) {
         return 'tablet';
     }
     return 'mobile';
@@ -88,7 +87,7 @@ export const getDeviceType = () => {
 export const onChangeDevice = (
     desktopCallback: () => void,
     mobileCallback: () => void,
-    desktopMinWidth = BREAKPOINT_LG
+    desktopMinWidth = BREAKPOINTS.LG,
 ): Subscription => {
     if (window.innerWidth < desktopMinWidth) {
         mobileCallback();
@@ -391,8 +390,3 @@ export const isElementInViewport = (rect: DOMRect) =>
         rect.left > window.innerWidth ||
         rect.top > window.innerHeight
     );
-
-export const isIE = (): boolean => {
-    const browser = Bowser.getParser(window.navigator.userAgent);
-    return browser.getBrowserName() === 'Internet Explorer';
-};

@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
-import Component, { ComponentProps } from '../../app/js/component';
-import { getDeviceType, onChangeDevice } from '../../app/js/helpers';
+import Component, { ComponentProps } from '../../../app/js/component';
+import { getDeviceType, onChangeDevice } from '../../../app/js/helpers';
 
 export default class Video extends Component {
     changeDeviceSubscription: Subscription;

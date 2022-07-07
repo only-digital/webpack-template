@@ -4,12 +4,11 @@
 
 
 // Basic
-@import './fonts';
-@import './colors';
-@import './variables';
-@import './mixins';
-@import './functions';
-@import './typography';
+@import 'fonts';
+@import 'colors';
+@import 'variables';
+@import 'mixins';
+@import 'functions';
+@import 'typography';
 @import './layout';
-@import './views';
 @import './components';

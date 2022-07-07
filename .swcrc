@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "dynamicImport": true,
+            "privateMethod": true
+        }
+    },
+    "minify": true,
+    "env": {
+        "targets": "last 2 versions, not dead"
+    }
+}

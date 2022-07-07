@@ -1,8 +1,7 @@
 import { ITransitionData } from '@barba/core/dist/core/src/defs';
 import { getComponent, getComponents } from '../../app/js/component';
-// import Header from '../../components/header/header';
-import { emit, isIe, listen } from '../../app/js/helpers';
-import Spoiler from '../../components/spoiler/spoiler';
+import { emit } from '../../app/js/helpers';
+import Spoiler from '../../components/ui/spoiler/spoiler';
 
 export default {
     namespace: 'common',

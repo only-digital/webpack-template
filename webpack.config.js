@@ -25,25 +25,22 @@ const pages = views.map((view) => {
 console.log('');
 
 const dataPath = path.join('src', 'assets', 'data');
-const dataJson = {};
+let dataJson = '';
 try {
-    fs.readdirSync(dataPath).forEach((file) => {
-        if (file.indexOf('.json') !== -1) {
-            const fileName = file.slice(0, file.indexOf('.json'));
-
-            try {
-                dataJson[fileName] = JSON.parse(fs.readFileSync(path.join(dataPath, file)));
-            } catch (e) {
-                console.log(`[ ${colors.red.bold('ERROR')} ] ${colors.bold(file)}: ${e.message}`);
-            }
-        } else {
-            console.log(
-                `[ ${colors.red.bold('ERROR')} ] Ошибка загрузки, файл ${colors.bold(
-                    file
-                )} имеет неверное расширение`
-            );
+    dataJson = JSON.parse(fs.readdirSync(dataPath).reduce((prev, current, index) => {
+        if (!~current.indexOf('.json')) {
+            throw new Error('Неверное расширение файла');
         }
-    });
+
+        const fileName = current.slice(0, current.indexOf('.json'));
+
+        try {
+            prev += `${index === 0 ? '' : ','}"${fileName}": ${fs.readFileSync(path.join(dataPath, current))}`;
+            return prev;
+        } catch (e) {
+            console.log(`[ ${colors.red.bold('ERROR')} ] ${colors.bold(current)}: ${e.message}`);
+        }
+    }, '{') + '}');
 } catch (e) {
     console.log(`[ ${colors.red.bold('ERROR')} ] ${e.message}`);
 }
@@ -55,7 +52,6 @@ module.exports = (env) => {
     return {
         entry: {
             common: './src/app/js/common.ts',
-            barba: './src/app/js/barba.js',
         },
         output: {
             filename: !!dev ? 'js/[name].js' : 'js/[name].[chunkhash].js',
@@ -64,10 +60,6 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                {
-                    test: /\.tsx?$/,
-                    use: 'ts-loader',
-                },
                 {
                     test: /\.pug$/,
                     use: [
@@ -216,15 +208,11 @@ module.exports = (env) => {
                     include: [path.join(__dirname, 'src', 'assets', 'icons')],
                 },
                 {
-                    test: /\.m?js$/,
+                    test: /\.m?[jt]s$/,
                     use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: [['@babel/preset-env', { targets: 'ie 11' }]],
-                        },
+                        loader: 'swc-loader',
                     },
-                    exclude: /node_modules[\/\\](?!(swiper|dom7|load-script2)[\/\\])/,
-                },
+                }
             ],
         },
         resolve: {

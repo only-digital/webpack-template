@@ -4,11 +4,6 @@
     @return $col-width * $value;
 }
 
-// Контентная часть(18 колонок), поделённая на 24 колонки
-@function cols-inner($value) {
-    @return $value * (($col-width * 18) / 24);
-}
-
 @function smooth-value($firstValue, $secondValue, $firstPoint, $secondPoint, $dimension) {
     @return calc(
         #{$firstValue}px
