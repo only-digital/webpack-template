@@ -2,7 +2,27 @@ import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, pluck } from 'rxjs/operators';
 import Swiper from 'swiper';
 import cookie from 'cookie';
-import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from './variables';
+import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from '@/variables/common';
+import {ComponentProps} from "@/Only/component";
+
+export const getComponent = (
+    name: string,
+    target: Document | HTMLElement = document
+): ComponentProps => ({
+    name,
+    component: target.querySelector(`.${name}`),
+});
+
+export const getComponents = (
+    name: string,
+    target: Document | HTMLElement = document
+): ComponentProps[] =>
+    Array.from(target.querySelectorAll(`.${name}`)).map((component: HTMLElement) => ({
+        name,
+        component,
+    }));
+
+/* --- */
 
 export enum cookiesTypes {
     acceptAnalytics = 'acceptAnalytics',
@@ -315,8 +335,12 @@ export const changeVisibility = (el: HTMLElement[] | HTMLElement, makeVisible = 
     });
 };
 
-export const prefersReducedMotion = () =>
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+export const prefersReducedMotion = () => {
+    Object.defineProperty(window, 'reduceMotion', {
+        value: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    });
+    return false;
+}
 
 export const htmlDecode = (input: string) =>
     DOMParser && input

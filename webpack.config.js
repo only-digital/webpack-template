@@ -61,6 +61,12 @@ module.exports = (env) => {
         module: {
             rules: [
                 {
+                    test: /\.m?[jt]s$/,
+                    use: {
+                        loader: 'swc-loader',
+                    },
+                },
+                {
                     test: /\.pug$/,
                     use: [
                         {
@@ -206,17 +212,19 @@ module.exports = (env) => {
                         'svg-transform-loader',
                     ],
                     include: [path.join(__dirname, 'src', 'assets', 'icons')],
-                },
-                {
-                    test: /\.m?[jt]s$/,
-                    use: {
-                        loader: 'swc-loader',
-                    },
                 }
             ],
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.js', '.pug'],
+            alias: {
+                "@/helpers": path.resolve(__dirname, 'src', 'app', 'js', 'helpers'),
+                "@/Only": path.resolve(__dirname, 'src', 'app', 'js', 'Only'),
+                "@/variables": path.resolve(__dirname, 'src', 'app', 'js', 'variables'),
+                "@/types": path.resolve(__dirname, 'src', 'app', 'js', 'types'),
+                "@/components": path.resolve(__dirname, 'src', 'components'),
+                "@/pages": path.resolve(__dirname, 'src', 'pages')
+            }
         },
         target: ['web', 'es5'],
         devServer: {

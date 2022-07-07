@@ -1,10 +1,9 @@
 import { Subscription } from 'rxjs';
-import Component, { ComponentProps } from '../../../app/js/component';
-import { emit, resize } from '../../../app/js/helpers';
+import Only, {ComponentProps} from "@/Only/component";
+import { emit, resize } from '@/helpers/common';
 
-export default class SpoilerBase extends Component {
+export default class SpoilerBase extends Only.Component {
     nContainer: HTMLElement;
-
     resizeSubscription: Subscription;
 
     constructor(element: ComponentProps) {

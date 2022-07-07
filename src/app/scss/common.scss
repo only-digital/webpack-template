@@ -1,14 +1,10 @@
-// Swiper
-// to-do: в дальнейшем нужно импортировать только нужные пакеты https://swiperjs.com/swiper-api#scss-styles
-@import '../../../node_modules/swiper/swiper-bundle.min.css';
-
-
 // Basic
+@import 'swiper';
 @import 'fonts';
 @import 'colors';
 @import 'variables';
 @import 'mixins';
-@import 'functions';
 @import 'typography';
-@import './layout';
-@import './components';
+@import 'functions';
+@import 'layout';
+@import 'components';

@@ -10,6 +10,7 @@
     }
 }
 
+//TODO: Формулу расчета шрифтов надо перепроверить
 @mixin font($desktop-1920, $desktop-1440, $desktop-1280, $tablet-768, $mobile) {
     font-size: #{$mobile}px;
 
@@ -30,6 +31,7 @@
     //}
 }
 
+//TODO: Формулу расчета шрифтов надо перепроверить
 @mixin rem-fluid($property, $min-size, $tablet-size, $smallDesk-size, $max-size) {
     $min-size-rem: rem($min-size);
     $tablet-size-rem: rem($tablet-size);
@@ -83,18 +85,22 @@
     @include rem-fluid(font-size,  $min-size, $tablet-size, $smallDesk-size, $max-size);
 }
 
-@mixin upperfhdsize($base-size, $property: width, $coeff: 1) {
+@mixin upper-fhd-size($base-size, $property: width, $coeff: 1) {
     #{$property}: calc((#{$base-size / 1920 * 100 / 2}vw + #{$base-size / 1080 * 100 / 2}vh) * #{$coeff});
 }
 
-@mixin offset($property: 'padding') {
-    #{$property}-left: 24px;
-    #{$property}-right: 24px;
-}
+@mixin offset-sides($property: 'padding') {
+    #{$property}-left: #{map-get($offset-sides, mobile)};
+    #{$property}-right: #{map-get($offset-sides, mobile)};
 
-@mixin ie11() {
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-        @content;
+    @include media-breakpoint-up(md) {
+        #{$property}-left: #{map-get($offset-sides, tablet)};
+        #{$property}-right: #{map-get($offset-sides, tablet)};
+    }
+
+    @include media-breakpoint-up(lg) {
+        #{$property}-left: #{map-get($offset-sides, desktop)};
+        #{$property}-right: #{map-get($offset-sides, desktop)};
     }
 }
 

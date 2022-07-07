@@ -1,14 +1,22 @@
 {
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Recommended",
     "compilerOptions": {
-        "outDir": "./dist/",
-        "noImplicitAny": true,
-        "module": "es6",
-        "target": "es5",
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "typeRoots": [
-            "./src/app/types", "./node_modules/@types"]
+        "target": "ES2015",
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "typeRoots": ["./src/app/types/*", "./node_modules/@types", "./src/app/js/Only"],
+        "baseUrl": "src",
+        "paths": {
+            "@/helpers/*": ["app/js/helpers/*"],
+            "@/Only/*": ["app/js/Only/*"],
+            "@/variables/*": ["app/js/variables/*"],
+            "@/types/*": ["app/js/types/*"],
+            "@/components/*": ["components/*"],
+            "@/pages/*": ["pages/*"],
+        }
     }
 }

@@ -1,10 +1,9 @@
 import { Subscription } from 'rxjs';
-import Component, { ComponentProps } from '../../../app/js/component';
-import { getDeviceType, onChangeDevice } from '../../../app/js/helpers';
+import Only, {ComponentProps} from "@/Only/component";
+import { getDeviceType, onChangeDevice } from '@/helpers/common';
 
-export default class Video extends Component {
+export default class Video extends Only.Component {
     changeDeviceSubscription: Subscription;
-
     nRoot: HTMLVideoElement;
 
     constructor(element: ComponentProps) {

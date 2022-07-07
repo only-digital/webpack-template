@@ -1,10 +1,10 @@
 import 'core-js/stable';
+import '../scss/common.scss';
 import barba from '@barba/core';
 import barbaPrefetch from '@barba/prefetch';
-import common from '../../pages/index/index';
-import { emit } from './helpers';
-import { cookiesTypes, setVhCssVariable } from './helpers';
-import '../scss/common.scss';
+import common from '@/pages/index/index';
+import {emit, resize} from '@/helpers/common';
+import { cookiesTypes, setVhCssVariable } from '@/helpers/common';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import cookie from 'cookie';
@@ -25,17 +25,11 @@ if (window.gtag) {
 }
 
 setVhCssVariable();
-fromEvent(window, 'resize')
-    .pipe(debounceTime(200))
-    .subscribe(() => {
-        setVhCssVariable();
-    });
-
+resize(setVhCssVariable);
 
 barba.use(barbaPrefetch);
 
-barba.hooks.beforeEnter((_data) => {
-});
+barba.hooks.beforeEnter((_data) => {});
 
 barba.hooks.afterEnter((_data) => {});
 

@@ -6,6 +6,9 @@
             "privateMethod": true
         }
     },
+    "module": {
+        "type": "commonjs"
+    },
     "minify": true,
     "env": {
         "targets": "last 2 versions, not dead"

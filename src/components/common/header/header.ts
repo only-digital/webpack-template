@@ -1,7 +1,7 @@
-import Component, { ComponentProps } from '../../../app/js/component';
+import Only, {ComponentProps} from "@/Only/component";
 
-export default class Header extends Component {
-    constructor(element: ComponentProps, barbaContainer: HTMLElement) {
+export default class Header extends Only.Component {
+    constructor(element: ComponentProps) {
         super(element);
     }
 

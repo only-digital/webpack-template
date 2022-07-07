@@ -1,7 +1,6 @@
 import { ITransitionData } from '@barba/core/dist/core/src/defs';
-import { getComponent, getComponents } from '../../app/js/component';
-import { emit } from '../../app/js/helpers';
-import Spoiler from '../../components/ui/spoiler/spoiler';
+import {emit, getComponent, getComponents} from '@/helpers/common';
+import Spoiler from "@/components/ui/spoiler/spoiler";
 
 export default {
     namespace: 'common',
@@ -13,14 +12,15 @@ export default {
 
             // this.nHeader = new Header(getComponent('header'), container);
 
+
             if (getComponent('spoiler', container).component)
                 getComponents('spoiler', container).map((component) => new Spoiler(component));
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     },
     beforeLeave() {
-        this.nHeader.destroy();
+
     },
 
     afterLeave() {},
