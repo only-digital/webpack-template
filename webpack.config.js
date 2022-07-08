@@ -190,7 +190,7 @@ module.exports = (env) => {
                     },
                 },
                 {
-                    test: /\.(woff|ttf|otf)$/i,
+                    test: /\.(woff2|woff|ttf|otf)$/i,
                     use: {
                         loader: 'file-loader',
                         options: {
