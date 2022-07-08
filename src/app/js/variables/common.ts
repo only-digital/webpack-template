@@ -11,3 +11,5 @@ export const BREAKPOINTS = {
 export const MAX_SEARCH_HISTORY = 8;
 
 export const DEBOUNCE_INTERVAL_MS = 150;
+
+export const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

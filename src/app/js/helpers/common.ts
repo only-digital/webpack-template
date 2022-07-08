@@ -272,12 +272,6 @@ export const setVhCssVariable = (): void => {
 };
 
 /**
- *  Тестовая анимация для отрисовки svg-иконок
- *
- * @param target Один элемент или массив svg-path, которые необходимо анимировать
- */
-
-/**
  * Add a URL parameter (or changing it if it already exists)
  * IE not supported URLSearchParams and URL
  * Returned new URL
@@ -334,13 +328,6 @@ export const changeVisibility = (el: HTMLElement[] | HTMLElement, makeVisible = 
         element.style.visibility = makeVisible ? 'visible' : 'hidden';
     });
 };
-
-export const prefersReducedMotion = () => {
-    Object.defineProperty(window, 'reduceMotion', {
-        value: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    });
-    return false;
-}
 
 export const htmlDecode = (input: string) =>
     DOMParser && input

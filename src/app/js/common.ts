@@ -5,8 +5,6 @@ import barbaPrefetch from '@barba/prefetch';
 import common from '@/pages/index/index';
 import {emit, resize} from '@/helpers/common';
 import { cookiesTypes, setVhCssVariable } from '@/helpers/common';
-import { fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import cookie from 'cookie';
 
 // SVG
