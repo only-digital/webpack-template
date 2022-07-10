@@ -219,7 +219,7 @@ module.exports = (env) => {
             extensions: ['.tsx', '.ts', '.js', '.pug'],
             alias: {
                 "@/helpers": path.resolve(__dirname, 'src', 'app', 'js', 'helpers'),
-                "@/Only": path.resolve(__dirname, 'src', 'app', 'js', 'Only'),
+                "@/base": path.resolve(__dirname, 'src', 'app', 'js', 'base'),
                 "@/variables": path.resolve(__dirname, 'src', 'app', 'js', 'variables'),
                 "@/types": path.resolve(__dirname, 'src', 'app', 'js', 'types'),
                 "@/components": path.resolve(__dirname, 'src', 'components'),

@@ -1,14 +1,15 @@
 import { Subscription } from 'rxjs';
-import Component , {ComponentProps} from "@/Only/component";
+import Component, {ComponentProps} from "@/base/component";
 import { emit, resize } from '@/helpers/common';
 
 export default class SpoilerBase extends Component {
     nContainer: HTMLElement;
-    resizeSubscription: Subscription;
+    resizeSubscription: Subscription | null;
 
     constructor(element: ComponentProps) {
         super(element);
-        this.nContainer = this.getElement('content');
+        this.resizeSubscription = null;
+        this.nContainer = this.getElement('content')!;
     }
 
     collapse = (e: Event) => {

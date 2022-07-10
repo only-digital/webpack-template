@@ -1,5 +1,5 @@
 import { fromEvent, Subscription } from 'rxjs';
-import {ComponentProps} from "@/Only/component";
+import {ComponentProps} from "@/base/component";
 import SpoilerBase from './spoiler-base';
 
 export default class Spoiler extends SpoilerBase {

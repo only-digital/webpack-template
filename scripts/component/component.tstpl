@@ -1,6 +1,6 @@
-import Component, { ComponentProps } from '../../app/js/component';
+import Component, { ComponentProps } from '@/Only/component';
 
-export default class ${componentAlias} extends Component {
+export default class ${componentClassName} extends Component {
     constructor(element: ComponentProps) {
         super(element);
     }

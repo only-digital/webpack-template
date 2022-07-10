@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import Only, {ComponentProps} from "@/Only/component";
+import Only, {ComponentProps} from "../../../app/js/base/component";
 import { getDeviceType, onChangeDevice } from '@/helpers/common';
 
 export default class Video extends Only.Component {

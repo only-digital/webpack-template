@@ -8,11 +8,15 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "typeRoots": ["./src/app/types/*", "./node_modules/@types", "./src/app/js/Only"],
+        "typeRoots": [
+            "./src/app/types/*",
+            "./node_modules/@types",
+            "./src/app/js/base"
+        ],
         "baseUrl": "src",
         "paths": {
             "@/helpers/*": ["app/js/helpers/*"],
-            "@/Only/*": ["app/js/Only/*"],
+            "@/base/*": ["app/js/base/*"],
             "@/variables/*": ["app/js/variables/*"],
             "@/types/*": ["app/js/types/*"],
             "@/components/*": ["components/*"],

@@ -3,7 +3,7 @@ import { debounceTime, pluck } from 'rxjs/operators';
 import Swiper from 'swiper';
 import cookie from 'cookie';
 import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from '@/variables/common';
-import {ComponentProps} from "@/Only/component";
+import {ComponentProps} from "@/base/component";
 
 export const getComponent = (
     name: string,
