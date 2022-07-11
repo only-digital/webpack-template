@@ -1,4 +1,4 @@
-import Component, { ComponentProps } from '@/Only/component';
+import Component, { ComponentProps } from '@/base/component';
 
 export default class ${componentClassName} extends Component {
     constructor(element: ComponentProps) {
