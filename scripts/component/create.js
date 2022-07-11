@@ -42,7 +42,7 @@ try {
     componentsScss += importViewScss;
 
     const componentsPathPug = path.join('src', 'app', 'pug', 'components.pug');
-    const importComponentPug = `include ../../components/${componentType}/${componentName}/${componentName}\n`;
+    const importComponentPug = `include ../../components/${componentType}/${componentName}/${componentName};\n`;
 
     let componentsPug = fs.readFileSync(componentsPathPug, 'utf-8');
     componentsPug += importComponentPug;
