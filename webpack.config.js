@@ -62,6 +62,7 @@ module.exports = (env) => {
             rules: [
                 {
                     test: /\.m?[jt]s$/,
+                    exclude: /(node_modules)/,
                     use: {
                         loader: 'swc-loader',
                     },

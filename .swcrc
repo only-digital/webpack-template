@@ -4,10 +4,11 @@
             "syntax": "typescript",
             "dynamicImport": true,
             "privateMethod": true
-        }
+        },
+        "target": "es2015"
     },
     "module": {
-        "type": "commonjs"
+        "type": "umd"
     },
     "minify": true,
     "env": {
