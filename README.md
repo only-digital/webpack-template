@@ -42,10 +42,10 @@ npm run page:create -scss <pageName> <pageTitle>
 
 ### Компонент
 
-Для создания компонента введите (например, `npm run component:create header`):
+Для создания компонента введите (например, `npm run component:create header common`):
 
 ```bash
-npm run component:create <componentName>
+npm run component:create <componentName> <componentType>
 ```
 
 Для удаления страницы введите (например, `npm run component:remove header`):

@@ -1,6 +1,6 @@
-import Only, {ComponentProps} from "../../../app/js/base/component";
+import Component, { ComponentProps } from '@/base/component';
 
-export default class Footer extends Only.Component {
+export default class Footer extends Component {
     constructor(element: ComponentProps) {
         super(element);
     }

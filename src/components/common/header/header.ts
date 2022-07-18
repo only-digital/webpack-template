@@ -1,6 +1,6 @@
-import Only, {ComponentProps} from "../../../app/js/base/component";
+import Component, { ComponentProps } from '@/base/component';
 
-export default class Header extends Only.Component {
+export default class Header extends Component {
     constructor(element: ComponentProps) {
         super(element);
     }

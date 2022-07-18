@@ -112,3 +112,23 @@
         }
     }
 }
+
+@mixin smooth-offset ($property, $mobile, $tablet-768, $desktop-1280, $desktop-1440, $desktop-1920) {
+    #{$property}: vw($mobile, $sm);
+
+    @include media-breakpoint-up(md) {
+        #{$property}: vw($tablet-768, $md);
+    }
+
+    @include media-breakpoint-up(xl) {
+        #{$property}: vw($desktop-1280, $xl);
+    }
+
+    @include media-breakpoint-up(xxl) {
+        #{$property}: vw($desktop-1440, $xxl);
+    }
+
+    @include media-breakpoint-up(fhd) {
+        #{$property}: vw($desktop-1920);
+    }
+}
