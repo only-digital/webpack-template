@@ -8,6 +8,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
         "typeRoots": [
             "./src/app/types/*",
             "./node_modules/@types",
