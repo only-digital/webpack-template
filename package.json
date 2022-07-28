@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "webpack serve --config ./webpack-config/webpack.dev.ts",
+        "dev": "(tsc -w --pretty --skipLibCheck --noEmit) & (webpack serve --config ./webpack-config/webpack.dev.ts)",
         "build": "webpack --config ./webpack-config/webpack.prod.ts",
         "component:create": "node ./scripts/component/create.js",
         "component:remove": "node ./scripts/component/remove.js",

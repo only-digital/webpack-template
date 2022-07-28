@@ -3,7 +3,7 @@
     "display": "Recommended",
     "compilerOptions": {
         "target": "ES2015",
-        "module": "umd",
+        "module": "commonjs",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,

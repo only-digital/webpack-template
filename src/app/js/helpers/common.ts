@@ -7,17 +7,20 @@ import {ComponentProps} from "@/base/component";
 
 export const getComponent = (
     name: string,
-    target: Document | HTMLElement = document
-): ComponentProps => ({
-    name,
-    component: target.querySelector(`.${name}`),
-});
+    target: Document | HTMLElement | undefined = document
+): ComponentProps | undefined => {
+    if (!target || !<HTMLElement>target?.querySelector(`.${name}`)) return;
+    return {
+        name,
+        component: <HTMLElement>target?.querySelector(`.${name}`),
+    }
+};
 
 export const getComponents = (
     name: string,
     target: Document | HTMLElement = document
 ): ComponentProps[] =>
-    Array.from(target.querySelectorAll(`.${name}`)).map((component: HTMLElement) => ({
+    (<HTMLElement[]>Array.from(target.querySelectorAll(`.${name}`))).map((component: HTMLElement) => ({
         name,
         component,
     }));
@@ -81,7 +84,7 @@ export const listen = (
     handler: (e?: CustomEvent) => void,
     element: Document | Element = document
 ) => {
-    element.addEventListener(name, handler);
+    element.addEventListener(name, handler as EventListener);
 };
 
 export const unlisten = (
@@ -89,7 +92,7 @@ export const unlisten = (
     handler: (e?: CustomEvent) => void,
     element: Document | Element = document
 ) => {
-    element.removeEventListener(name, handler);
+    element.removeEventListener(name, handler as EventListener);
 };
 
 export const isTouchDevice = (): boolean => 'ontouchstart' in document;
@@ -119,21 +122,23 @@ export const onChangeDevice = (
 
     return fromEvent(window, 'resize')
         .pipe(debounceTime(DEBOUNCE_INTERVAL_MS), pluck('target', 'innerWidth'))
-        .subscribe((currentWidth: number) => {
-            if (currentWidth < desktopMinWidth && prevWidth >= desktopMinWidth) {
-                mobileCallback();
-            } else if (currentWidth >= desktopMinWidth && prevWidth < desktopMinWidth) {
-                desktopCallback();
+        .subscribe((currentWidth: unknown) => {
+            if (typeof currentWidth === 'number') {
+                if (currentWidth < desktopMinWidth && prevWidth >= desktopMinWidth) {
+                    mobileCallback();
+                } else if (currentWidth >= desktopMinWidth && prevWidth < desktopMinWidth) {
+                    desktopCallback();
+                }
+                prevWidth = currentWidth;
             }
-            prevWidth = currentWidth;
         });
 };
 
-let scrollableContainer: HTMLElement = document.querySelector('[data-barba="container"]');
-listen('barba:new-page', (e: CustomEvent) => {
-    scrollableContainer = e.detail;
+let scrollableContainer = document.querySelector('[data-barba="container"]') as HTMLElement;
+listen('barba:new-page', (e?: CustomEvent) => {
+    scrollableContainer = e?.detail;
 });
-export const getPageScrollContainer = (): HTMLElement => scrollableContainer;
+export const getPageScrollContainer = (): HTMLElement | null => scrollableContainer;
 
 export const getHistorySearch = (): string[] => {
     const historyFromCookie = document.cookie
@@ -168,7 +173,7 @@ export class DimensionBalancer {
 
     nodes: HTMLElement[];
 
-    resizeSubscription: Subscription;
+    resizeSubscription: Subscription | undefined;
 
     constructor(
         dimension: Dimension = Dimension.height,
@@ -378,8 +383,10 @@ export const isOverflowed = (element: HTMLElement) =>
 
 export const isVisible = (
     element: HTMLElement,
-    container: HTMLElement = getPageScrollContainer()
+    container: HTMLElement | null = getPageScrollContainer()
 ) => {
+    if (!element || !container) return;
+
     const el = element.getBoundingClientRect();
 
     if (!isElementInViewport(el)) return false;
