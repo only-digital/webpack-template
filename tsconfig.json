@@ -3,11 +3,12 @@
     "display": "Recommended",
     "compilerOptions": {
         "target": "ES2015",
-        "module": "umd",
+        "module": "commonjs",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
+        "moduleResolution": "node",
         "typeRoots": [
             "./src/app/types/*",
             "./node_modules/@types",

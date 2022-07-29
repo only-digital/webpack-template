@@ -13,7 +13,7 @@ export default {
             // this.nHeader = new Header(getComponent('header'), container);
 
 
-            if (getComponent('spoiler', container).component)
+            if (getComponent('spoiler', container)?.component)
                 getComponents('spoiler', container).map((component) => new Spoiler(component));
         } catch (e) {
             console.error(e);
