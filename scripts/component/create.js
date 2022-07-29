@@ -13,29 +13,36 @@ String.prototype.fromKebabToCamel = function () {
 
 const args = process.argv;
 const componentName = args[2];
+const componentType = args[3];
 
-// const progressLog = text => console.log(`[ ${colors.blue.bold('PROGRESS')} ] ${text}`);
+const availableComponentTypes = fs.readdirSync(path.join('src', 'components'));
+
 const pathFileExt = (path, ext) => `${path}.${ext}`;
 
 try {
-    if (!componentName) throw new Error('Введите название компонента');
+    if (!componentName) {
+        throw new Error('Введите название компонента')
+    }
+    if (!componentType || !availableComponentTypes.includes(componentType)) {
+        throw new Error(`Введите один из существующих типов компонентов: [${availableComponentTypes.join(', ')}]`);
+    }
 
-    const components = fs.readdirSync(path.join('src', 'components'));
+    const components = fs.readdirSync(path.join('src', 'components', componentType));
     if (components.findIndex((component) => component === componentName) !== -1)
         throw new Error('Компонент уже существует');
 
-    const componentAlias = componentName.fromKebabToCamel().capitalize();
-    const folderPath = path.join('src', 'components', componentName);
+    const componentClassName = componentName.fromKebabToCamel().capitalize();
+    const folderPath = path.join('src', 'components', componentType, componentName);
     const filePath = path.join(folderPath, componentName);
 
     const componentsPathScss = path.join('src', 'app', 'scss', 'components.scss');
-    const importViewScss = `@import '../../components/${componentName}/${componentName}';\n`;
+    const importViewScss = `@import '../../components/${componentType}/${componentName}/${componentName}';\n`;
 
     let componentsScss = fs.readFileSync(componentsPathScss, 'utf-8');
     componentsScss += importViewScss;
 
     const componentsPathPug = path.join('src', 'app', 'pug', 'components.pug');
-    const importComponentPug = `include ../../components/${componentName}/${componentName}\n`;
+    const importComponentPug = `include ../../components/${componentType}/${componentName}/${componentName}\n`;
 
     let componentsPug = fs.readFileSync(componentsPathPug, 'utf-8');
     componentsPug += importComponentPug;
@@ -60,8 +67,7 @@ try {
     const scssPath = pathFileExt(filePath, 'scss');
     fs.writeFileSync(scssPath, `.${componentName} {\n    $root: &;\n}`);
 
-    console.log(`[ ${colors.green.bold('SUCCESS')} ] Компонент ${componentName} создан`);
+    console.log(`[ ${colors.green.bold('SUCCESS')} ] Компонент ${componentType}/${componentName} создан`);
 } catch (e) {
     console.log(`[ ${colors.red.bold('ERROR')} ] ${e.message}`);
-} finally {
 }

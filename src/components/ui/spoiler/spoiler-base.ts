@@ -1,15 +1,15 @@
 import { Subscription } from 'rxjs';
-import Component, { ComponentProps } from '../../app/js/component';
-import { emit, resize } from '../../app/js/helpers';
+import Component, {ComponentProps} from "@/base/component";
+import { emit, resize } from '@/helpers/common';
 
 export default class SpoilerBase extends Component {
-    nContainer: HTMLElement;
-
-    resizeSubscription: Subscription;
+    nContainer: HTMLElement | undefined;
+    resizeSubscription: Subscription | null;
 
     constructor(element: ComponentProps) {
         super(element);
-        this.nContainer = this.getElement('content');
+        this.resizeSubscription = null;
+        this.nContainer = this.getElement('content')!;
     }
 
     collapse = (e: Event) => {
@@ -22,7 +22,7 @@ export default class SpoilerBase extends Component {
     toggle = (isOpen: boolean) => {
         if (isOpen) {
             this.nRoot.classList.add('show');
-            this.setHeight(`${this.nContainer.scrollHeight}px`);
+            if (this.nContainer) this.setHeight(`${this.nContainer.scrollHeight}px`);
             this.resizeSubscription = resize(this.resizeHandler);
         } else {
             this.resizeSubscription?.unsubscribe();
@@ -33,10 +33,14 @@ export default class SpoilerBase extends Component {
     };
 
     setHeight = (value: string) => {
-        this.nContainer.style.maxHeight = value;
+        if (this.nContainer) this.nContainer.style.maxHeight = value;
     };
 
-    resizeHandler = () => this.setHeight(`${this.nContainer.scrollHeight}px`);
+    resizeHandler = () => {
+        if (this.nContainer) {
+            this.setHeight(`${this.nContainer.scrollHeight}px`);
+        }
+    };
 
     destroy = () => {
         // Destroy functions

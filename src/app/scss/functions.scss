@@ -4,11 +4,6 @@
     @return $col-width * $value;
 }
 
-// Контентная часть(18 колонок), поделённая на 24 колонки
-@function cols-inner($value) {
-    @return $value * (($col-width * 18) / 24);
-}
-
 @function smooth-value($firstValue, $secondValue, $firstPoint, $secondPoint, $dimension) {
     @return calc(
         #{$firstValue}px
@@ -18,8 +13,8 @@
     );
 }
 
-@function vw($value, $base: 1920) {
-    @return $value / $base * 100vw;
+@function vw($value, $base: fhd) {
+    @return $value / map-get($breakpoints, $base) * 100vw;
 }
 
 @function vh($value, $base: 1080) {

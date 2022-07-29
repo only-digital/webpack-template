@@ -1,17 +1,31 @@
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, pluck } from 'rxjs/operators';
 import Swiper from 'swiper';
-import { isArray } from 'node:util';
 import cookie from 'cookie';
-import Bowser from 'bowser';
+import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from '@/variables/common';
+import {ComponentProps} from "@/base/component";
 
-export const BREAKPOINT_SM = 640;
-export const BREAKPOINT_MD = 768;
-export const BREAKPOINT_LG = 1024;
-export const BREAKPOINT_XL = 1280;
-export const BREAKPOINT_FHD = 1536;
-export const MAX_SEARCH_HISTORY = 8;
-export const DEBOUNCE_INTERVAL_MS = 150;
+export const getComponent = (
+    name: string,
+    target: Document | HTMLElement | undefined = document
+): ComponentProps | undefined => {
+    if (!target || !<HTMLElement>target?.querySelector(`.${name}`)) return;
+    return {
+        name,
+        component: <HTMLElement>target?.querySelector(`.${name}`),
+    }
+};
+
+export const getComponents = (
+    name: string,
+    target: Document | HTMLElement = document
+): ComponentProps[] =>
+    (<HTMLElement[]>Array.from(target.querySelectorAll(`.${name}`))).map((component: HTMLElement) => ({
+        name,
+        component,
+    }));
+
+/* --- */
 
 export enum cookiesTypes {
     acceptAnalytics = 'acceptAnalytics',
@@ -27,7 +41,7 @@ export const resize = (callback: (e: Window) => void, timeout = 200) =>
 export const resizeWindow = (
     desktopCallback: (e: Window) => void,
     mobileCallback: (e: Window) => void,
-    breakpoint: number = BREAKPOINT_XL
+    breakpoint: number = BREAKPOINTS.LG,
 ) => {
     const callback = () =>
         window.matchMedia(`(min-width: ${breakpoint}px)`).matches
@@ -70,7 +84,7 @@ export const listen = (
     handler: (e?: CustomEvent) => void,
     element: Document | Element = document
 ) => {
-    element.addEventListener(name, handler);
+    element.addEventListener(name, handler as EventListener);
 };
 
 export const unlisten = (
@@ -78,16 +92,16 @@ export const unlisten = (
     handler: (e?: CustomEvent) => void,
     element: Document | Element = document
 ) => {
-    element.removeEventListener(name, handler);
+    element.removeEventListener(name, handler as EventListener);
 };
 
 export const isTouchDevice = (): boolean => 'ontouchstart' in document;
 
 export const getDeviceType = () => {
-    if (window.matchMedia(`(min-width: ${BREAKPOINT_LG}px)`).matches) {
+    if (window.matchMedia(`(min-width: ${BREAKPOINTS.LG}px)`).matches) {
         return 'desktop';
     }
-    if (window.matchMedia(`(min-width: ${BREAKPOINT_MD}px)`).matches) {
+    if (window.matchMedia(`(min-width: ${BREAKPOINTS.MD}px)`).matches) {
         return 'tablet';
     }
     return 'mobile';
@@ -96,7 +110,7 @@ export const getDeviceType = () => {
 export const onChangeDevice = (
     desktopCallback: () => void,
     mobileCallback: () => void,
-    desktopMinWidth = BREAKPOINT_LG
+    desktopMinWidth = BREAKPOINTS.LG,
 ): Subscription => {
     if (window.innerWidth < desktopMinWidth) {
         mobileCallback();
@@ -108,21 +122,23 @@ export const onChangeDevice = (
 
     return fromEvent(window, 'resize')
         .pipe(debounceTime(DEBOUNCE_INTERVAL_MS), pluck('target', 'innerWidth'))
-        .subscribe((currentWidth: number) => {
-            if (currentWidth < desktopMinWidth && prevWidth >= desktopMinWidth) {
-                mobileCallback();
-            } else if (currentWidth >= desktopMinWidth && prevWidth < desktopMinWidth) {
-                desktopCallback();
+        .subscribe((currentWidth: unknown) => {
+            if (typeof currentWidth === 'number') {
+                if (currentWidth < desktopMinWidth && prevWidth >= desktopMinWidth) {
+                    mobileCallback();
+                } else if (currentWidth >= desktopMinWidth && prevWidth < desktopMinWidth) {
+                    desktopCallback();
+                }
+                prevWidth = currentWidth;
             }
-            prevWidth = currentWidth;
         });
 };
 
-let scrollableContainer: HTMLElement = document.querySelector('[data-barba="container"]');
-listen('barba:new-page', (e: CustomEvent) => {
-    scrollableContainer = e.detail;
+let scrollableContainer = document.querySelector('[data-barba="container"]') as HTMLElement;
+listen('barba:new-page', (e?: CustomEvent) => {
+    scrollableContainer = e?.detail;
 });
-export const getPageScrollContainer = (): HTMLElement => scrollableContainer;
+export const getPageScrollContainer = (): HTMLElement | null => scrollableContainer;
 
 export const getHistorySearch = (): string[] => {
     const historyFromCookie = document.cookie
@@ -157,7 +173,7 @@ export class DimensionBalancer {
 
     nodes: HTMLElement[];
 
-    resizeSubscription: Subscription;
+    resizeSubscription: Subscription | undefined;
 
     constructor(
         dimension: Dimension = Dimension.height,
@@ -261,12 +277,6 @@ export const setVhCssVariable = (): void => {
 };
 
 /**
- *  Тестовая анимация для отрисовки svg-иконок
- *
- * @param target Один элемент или массив svg-path, которые необходимо анимировать
- */
-
-/**
  * Add a URL parameter (or changing it if it already exists)
  * IE not supported URLSearchParams and URL
  * Returned new URL
@@ -324,9 +334,6 @@ export const changeVisibility = (el: HTMLElement[] | HTMLElement, makeVisible = 
     });
 };
 
-export const prefersReducedMotion = () =>
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
 export const htmlDecode = (input: string) =>
     DOMParser && input
         ? new DOMParser().parseFromString(input, 'text/html').documentElement.textContent
@@ -376,8 +383,10 @@ export const isOverflowed = (element: HTMLElement) =>
 
 export const isVisible = (
     element: HTMLElement,
-    container: HTMLElement = getPageScrollContainer()
+    container: HTMLElement | null = getPageScrollContainer()
 ) => {
+    if (!element || !container) return;
+
     const el = element.getBoundingClientRect();
 
     if (!isElementInViewport(el)) return false;
@@ -399,8 +408,3 @@ export const isElementInViewport = (rect: DOMRect) =>
         rect.left > window.innerWidth ||
         rect.top > window.innerHeight
     );
-
-export const isIE = (): boolean => {
-    const browser = Bowser.getParser(window.navigator.userAgent);
-    return browser.getBrowserName() === 'Internet Explorer';
-};
