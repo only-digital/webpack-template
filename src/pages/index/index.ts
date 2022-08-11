@@ -1,5 +1,5 @@
 import { ITransitionData } from '@barba/core/dist/core/src/defs';
-import {emit} from '@/helpers/helpers';
+import { emit } from '@/helpers/helpers';
 
 export default {
     namespace: 'common',

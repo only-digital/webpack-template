@@ -19,7 +19,7 @@
             "@/helpers/*": ["app/js/helpers/*"],
             "@/base/*": ["app/js/base/*"],
             "@/variables/*": ["app/js/variables/*"],
-            "@/types/*": ["app/js/types/*"],
+            "@/types/*": ["app/types/*"],
             "@/components/*": ["components/*"],
             "@/pages/*": ["pages/*"],
         }

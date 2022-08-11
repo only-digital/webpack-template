@@ -4,56 +4,118 @@ import Swiper from 'swiper';
 import cookie from 'cookie';
 import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from '@/variables/variables';
 import {ComponentProps} from "@/base/component";
+import {ResizeCallback, ResizeOptions} from "@/types/index";
 
-export const getComponent = (
-    name: string,
-    target: Document | HTMLElement | undefined = document
-): ComponentProps | undefined => {
-    if (!target || !<HTMLElement>target?.querySelector(`.${name}`)) return;
-    return {
-        name,
-        component: <HTMLElement>target?.querySelector(`.${name}`),
-    }
-};
-
-export const getComponents = (
+/**
+ * @description Функция для поиска HTML-элемента и генерации объекта, который необходим конструктору класса Component
+ * @param name - Имя css-класса корневого элемента
+ * @param target - Элемент, внутри которого будет происходить поиск
+ * @return Объект с именем и корневым HTML-элементом
+ */
+export const getComponent = <T extends HTMLElement>(
     name: string,
     target: Document | HTMLElement = document
-): ComponentProps[] =>
-    (<HTMLElement[]>Array.from(target.querySelectorAll(`.${name}`))).map((component: HTMLElement) => ({
+): ComponentProps<T> | null => {
+    const component = target.querySelector<T>(`.${name}`)
+    return component ? { name, component } : null
+};
+
+/**
+ * @description Функция для поиска массива HTML-элементов и генерации массива объектов, которые необходимы конструктору класса Component
+ * @param name - Имя css-класса корневого элемента
+ * @param target - Элемент, внутри которого будет происходить поиск
+ * @return Массив объектов с именем и корневым HTML-элементом
+ */
+export const getComponents = <T extends HTMLElement>(
+    name: string,
+    target: Document | HTMLElement = document
+): ComponentProps<T>[] => {
+    return Array.from(target.querySelectorAll<T>(`.${name}`)).map((component) => ({
         name,
         component,
     }));
+}
 
-/* --- */
+/**
+ * @description Подписка на событие resize окна браузера
+ * @param callback - обработчик события resize (может быть функцией или объектом из двух функций, отдельно для десктоп и мобилки)
+ * @param options - Дополнительные настройки для события resize ()
+ */
+
+export const resize = (callback: ResizeCallback, options: ResizeOptions = {}) => {
+    options.debounce = options.debounce ?? 300;
+    options.breakpoint = options.breakpoint ?? BREAKPOINTS.LG;
+    let resizeCallback: VoidFunction;
+    if ('call' in callback) {
+        resizeCallback = () => callback(window);
+    } else {
+        resizeCallback = () => matchesBreakpoint(options.breakpoint!)
+            ? callback.desktop(window)
+            : callback.mobile(window);
+    }
+    if (options.initial) resizeCallback();
+    return fromEvent(window, 'resize')
+        .pipe(debounceTime(options.debounce))
+        .subscribe(resizeCallback);
+}
+
+/**
+ * Добавляет сторонний скрипт на страницу и позволяет выполнить действие после его загрузки или в случае ошибки
+ * @param src - расположение скрипта
+ * @return Promise
+ */
+export const loadScript = (src: string) => {
+    return new Promise((resolve, reject) => {
+        const injectedScript = document.querySelector(`script[src='${src}']`) as HTMLScriptElement;
+        if (injectedScript) {
+            injectedScript.onload = resolve;
+            injectedScript.onerror = reject;
+            return;
+        }
+
+        const scriptElement = document.createElement('script');
+        scriptElement.onload = resolve;
+        scriptElement.onerror = reject;
+        scriptElement.type = 'text/javascript';
+        scriptElement.src = src;
+        document.body.appendChild(scriptElement);
+    });
+}
+
+/**
+ * @description Проверка на Internet Explorer 11
+ */
+export const isIe = () => {
+    const agent = window.navigator.userAgent;
+    const msie = agent.indexOf('MSIE ');
+
+    return msie > -1 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
+};
+
+/**
+ * @description Установка css-переменной --vh
+ * @description Переменная --vh используется в основном в мобильных устройствах
+ */
+export const setVhCssVariable = (): void => {
+    const vh = document.documentElement.clientHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+};
+
+/**
+ * @description Проверка размеров окна на соответствие указанному брейкпоинту
+ * @param breakpoint
+ */
+export const matchesBreakpoint = (breakpoint: number) => {
+    return window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
+}
+
+/* --- Дальше старое --- */
 
 export enum cookiesTypes {
     acceptAnalytics = 'acceptAnalytics',
     acceptSocial = 'acceptSocial',
     acceptAds = 'acceptAds',
 }
-
-export const resize = (callback: (e: Window) => void, timeout = 200) =>
-    fromEvent(window, 'resize')
-        .pipe(debounceTime(timeout))
-        .subscribe(() => callback(window));
-
-export const resizeWindow = (
-    desktopCallback: (e: Window) => void,
-    mobileCallback: (e: Window) => void,
-    breakpoint: number = BREAKPOINTS.LG,
-) => {
-    const callback = () =>
-        window.matchMedia(`(min-width: ${breakpoint}px)`).matches
-            ? desktopCallback(window)
-            : mobileCallback(window);
-
-    callback();
-
-    return fromEvent(window, 'resize')
-        .pipe(debounceTime(300))
-        .subscribe(() => callback());
-};
 
 export const collectHiddenInputs = (formData: FormData, target: HTMLElement) => {
     const inputs: HTMLInputElement[] = Array.from(target.querySelectorAll('input[type="hidden"]'));
@@ -186,7 +248,10 @@ export class DimensionBalancer {
         this.update();
 
         if (breakpoint) {
-            resizeWindow(this.initDesktop, this.initMobile, breakpoint);
+            resize({
+                desktop: this.initDesktop,
+                mobile: this.initMobile
+            }, { breakpoint, initial: true });
         } else {
             fromEvent(window, 'resize').pipe(debounceTime(200)).subscribe(this.update);
         }
@@ -247,35 +312,6 @@ export const swiperTabNavigationFix = (keycode: number, swiper: Swiper) => {
     }
 };
 
-export const loadScript = (src: string) =>
-    new Promise((resolve, reject) => {
-        const injectedScript = document.querySelector(`script[src='${src}']`) as HTMLScriptElement;
-        if (injectedScript) {
-            injectedScript.onload = resolve;
-            injectedScript.onerror = reject;
-            return;
-        }
-
-        const scriptElement = document.createElement('script');
-        scriptElement.onload = resolve;
-        scriptElement.onerror = reject;
-        scriptElement.type = 'text/javascript';
-        scriptElement.src = src;
-        document.body.appendChild(scriptElement);
-    });
-
-export const isIe = () => {
-    const agent = window.navigator.userAgent;
-    const msie = agent.indexOf('MSIE ');
-
-    return msie > -1 || !!navigator.userAgent.match(/Trident.*rv\:11\./);
-};
-
-export const setVhCssVariable = (): void => {
-    const vh = document.documentElement.clientHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-};
-
 /**
  * Add a URL parameter (or changing it if it already exists)
  * IE not supported URLSearchParams and URL
@@ -319,9 +355,6 @@ export const getUrlParamIE = (name: string) => {
 
     return decodeURI(results[1]);
 };
-
-export const matchesBreakpoint = (breakpoint: number) =>
-    window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
 
 export const changeVisibility = (el: HTMLElement[] | HTMLElement, makeVisible = true) => {
     if (!Array.isArray(el)) {

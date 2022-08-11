@@ -149,7 +149,7 @@ const config: Configuration =  {
             "@/helpers": path.resolve(__dirname, '..', 'src', 'app', 'js', 'helpers'),
             "@/base": path.resolve(__dirname, '..', 'src', 'app', 'js', 'base'),
             "@/variables": path.resolve(__dirname, '..', 'src', 'app', 'js', 'variables'),
-            "@/types": path.resolve(__dirname, '..', 'src', 'app', 'js', 'types'),
+            "@/types": path.resolve(__dirname, '..', 'src', 'app', 'types'),
             "@/components": path.resolve(__dirname, '..', 'src', 'components'),
             "@/pages": path.resolve(__dirname,  '..','src', 'pages')
         }
