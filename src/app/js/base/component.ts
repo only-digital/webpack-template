@@ -1,11 +1,11 @@
-import { REDUCE_MOTION } from '@/variables/common';
+import { REDUCE_MOTION } from '@/variables/variables';
 
 export type ComponentProps<T = HTMLElement> = {
     name: string;
     component: T;
 };
 
-export interface ComponentObserveOptions extends  IntersectionObserverInit {
+export interface ComponentObserveOptions extends IntersectionObserverInit {
     animateThreshold?: number;
 }
 

@@ -3,8 +3,8 @@ import '../scss/common.scss';
 import barba from '@barba/core';
 import barbaPrefetch from '@barba/prefetch';
 import common from '@/pages/index/index';
-import {emit, resize} from '@/helpers/common';
-import { cookiesTypes, setVhCssVariable } from '@/helpers/common';
+import {emit, resize} from '@/helpers/helpers';
+import { cookiesTypes, setVhCssVariable } from '@/helpers/helpers';
 import cookie from 'cookie';
 
 // SVG
