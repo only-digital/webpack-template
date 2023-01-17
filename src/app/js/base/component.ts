@@ -1,4 +1,4 @@
-import { REDUCE_MOTION } from '@/variables/variables';
+import { IS_REDUCE_MOTION } from '@/variables/variables';
 
 export type ComponentProps<T = HTMLElement> = {
     name: string;
@@ -33,7 +33,7 @@ abstract class Component {
     };
 
     public observe = (target = this.nRoot, options = defaultObserveOptions) => {
-        if (REDUCE_MOTION) {
+        if (IS_REDUCE_MOTION) {
             this.onIntersection();
             return;
         }

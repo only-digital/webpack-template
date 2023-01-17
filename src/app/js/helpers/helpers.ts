@@ -1,8 +1,7 @@
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime, pluck } from 'rxjs/operators';
-import Swiper from 'swiper';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import cookie from 'cookie';
-import { BREAKPOINTS, DEBOUNCE_INTERVAL_MS, MAX_SEARCH_HISTORY } from '@/variables/variables';
+import { BREAKPOINTS } from '@/variables/variables';
 import {ComponentProps} from "@/base/component";
 import {ResizeCallback, ResizeOptions} from "@/types/index";
 
@@ -109,7 +108,10 @@ export const matchesBreakpoint = (breakpoint: number) => {
     return window.matchMedia(`(min-width: ${breakpoint}px)`).matches;
 }
 
-/* --- Дальше старое --- */
+/**
+ * Дальше старое
+ * @todo Надо разобрать и описать
+ */
 
 export enum cookiesTypes {
     acceptAnalytics = 'acceptAnalytics',
@@ -157,221 +159,6 @@ export const unlisten = (
     element.removeEventListener(name, handler as EventListener);
 };
 
-export const isTouchDevice = (): boolean => 'ontouchstart' in document;
-
-export const getDeviceType = () => {
-    if (window.matchMedia(`(min-width: ${BREAKPOINTS.LG}px)`).matches) {
-        return 'desktop';
-    }
-    if (window.matchMedia(`(min-width: ${BREAKPOINTS.MD}px)`).matches) {
-        return 'tablet';
-    }
-    return 'mobile';
-};
-
-export const onChangeDevice = (
-    desktopCallback: () => void,
-    mobileCallback: () => void,
-    desktopMinWidth = BREAKPOINTS.LG,
-): Subscription => {
-    if (window.innerWidth < desktopMinWidth) {
-        mobileCallback();
-    } else {
-        desktopCallback();
-    }
-
-    let prevWidth = window.innerWidth;
-
-    return fromEvent(window, 'resize')
-        .pipe(debounceTime(DEBOUNCE_INTERVAL_MS), pluck('target', 'innerWidth'))
-        .subscribe((currentWidth: unknown) => {
-            if (typeof currentWidth === 'number') {
-                if (currentWidth < desktopMinWidth && prevWidth >= desktopMinWidth) {
-                    mobileCallback();
-                } else if (currentWidth >= desktopMinWidth && prevWidth < desktopMinWidth) {
-                    desktopCallback();
-                }
-                prevWidth = currentWidth;
-            }
-        });
-};
-
-let scrollableContainer = document.querySelector('[data-barba="container"]') as HTMLElement;
-listen('barba:new-page', (e?: CustomEvent) => {
-    scrollableContainer = e?.detail;
-});
-export const getPageScrollContainer = (): HTMLElement | null => scrollableContainer;
-
-export const getHistorySearch = (): string[] => {
-    const historyFromCookie = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('searchHistory='))
-        ?.split('=')[1];
-    return historyFromCookie ? JSON.parse(historyFromCookie) : [];
-};
-
-export const addSearchHistory = (value: string) => {
-    const currentHistory = getHistorySearch();
-    if (currentHistory.find((item) => item === value)) return;
-
-    if (currentHistory.length >= MAX_SEARCH_HISTORY) {
-        currentHistory.shift();
-    }
-    currentHistory.push(value);
-    document.cookie = `searchHistory=${JSON.stringify(currentHistory)}`;
-};
-
-export type MapPosition = {
-    lat: number;
-    long: number;
-};
-
-export enum Dimension {
-    width = 'width',
-    height = 'height',
-}
-export class DimensionBalancer {
-    dimension: Dimension;
-
-    nodes: HTMLElement[];
-
-    resizeSubscription: Subscription | undefined;
-
-    constructor(
-        dimension: Dimension = Dimension.height,
-        nodes: HTMLElement[] = [],
-        breakpoint = 768
-    ) {
-        this.update = this.update.bind(this);
-        this.dimension = dimension;
-        this.nodes = nodes;
-        this.update();
-
-        if (breakpoint) {
-            resize({
-                desktop: this.initDesktop,
-                mobile: this.initMobile
-            }, { breakpoint, initial: true });
-        } else {
-            fromEvent(window, 'resize').pipe(debounceTime(200)).subscribe(this.update);
-        }
-    }
-
-    initDesktop = () => {
-        this.resizeSubscription = fromEvent(window, 'resize')
-            .pipe(debounceTime(200))
-            .subscribe(this.update);
-    };
-
-    initMobile = () => {
-        this.resizeSubscription?.unsubscribe();
-        this.resetDimensions();
-    };
-
-    resetDimensions = () => {
-        this.nodes.forEach((node) => {
-            node.style[this.dimension] = '';
-        });
-    };
-
-    update() {
-        const maxDimension =
-            Math.max(
-                ...this.nodes.map((node) => {
-                    node.style[this.dimension] = 'auto';
-                    const style = getComputedStyle(node);
-                    return this.dimension === Dimension.height
-                        ? node.offsetHeight -
-                              parseFloat(style.paddingTop) -
-                              parseFloat(style.paddingBottom)
-                        : node.offsetWidth;
-                })
-            ) + 1;
-        this.nodes.forEach((node) => {
-            node.style[this.dimension] = `${maxDimension}px`;
-        });
-    }
-}
-
-export const swiperTabNavigationFix = (keycode: number, swiper: Swiper) => {
-    if (swiper && keycode === 9) {
-        setTimeout(() => {
-            [...Object.values(swiper.slides)].slice(0, -1).forEach((slide, i) => {
-                if (
-                    slide.contains(document.activeElement) ||
-                    slide.isSameNode(document.activeElement)
-                ) {
-                    console.log('passed', slide);
-                    swiper.$el[0].scrollLeft = 0;
-                    swiper.$el[0].scrollIntoView();
-                    swiper.$wrapperEl[0].scrollLeft = 0;
-                    swiper.slideTo(i);
-                }
-            });
-        }, 0);
-    }
-};
-
-/**
- * Add a URL parameter (or changing it if it already exists)
- * IE not supported URLSearchParams and URL
- * Returned new URL
- * @param key    string  the key to set
- * @param value   string  value
- * @example addUrlParam('foo', 'bar')
- */
-export const addUrlParamIE = (key: string, value: string) => {
-    key = encodeURIComponent(key);
-    value = encodeURIComponent(value);
-
-    let { search } = location;
-    const param = `${key}=${value}`;
-    const regex = new RegExp(`(&|\\?)${key}=[^\&]*`);
-
-    search = search.replace(regex, `$1${param}`);
-
-    if (!search.match(regex)) {
-        search += (search.length > 0 ? '&' : '?') + param;
-    }
-
-    return location.origin + location.pathname + search;
-};
-
-/**
- * Get URL parameter
- * IE not supported URLSearchParams and URL
- * Returned parameter value if exist, else null
- * @param name    string  the key to get
- * @example "example.com?param1=name&param2=&id=6"
- * getUrlParamIE('param1');  // name
- * getUrlParamIE('id');      // 6
- * getUrlParamIE('param2');  // null
- */
-export const getUrlParamIE = (name: string) => {
-    const results = new RegExp(`[\?&]${name}=([^&#]*)`).exec(location.href);
-    if (results == null) {
-        return null;
-    }
-
-    return decodeURI(results[1]);
-};
-
-export const changeVisibility = (el: HTMLElement[] | HTMLElement, makeVisible = true) => {
-    if (!Array.isArray(el)) {
-        el.style.visibility = makeVisible ? 'visible' : 'hidden';
-        return;
-    }
-
-    el.forEach((element) => {
-        element.style.visibility = makeVisible ? 'visible' : 'hidden';
-    });
-};
-
-export const htmlDecode = (input: string) =>
-    DOMParser && input
-        ? new DOMParser().parseFromString(input, 'text/html').documentElement.textContent
-        : input;
-
 export const isCookiesTypeAllowed = (cookieType: cookiesTypes) =>
     !!cookie.parse(document.cookie)[cookiesTypes[cookieType]];
 
@@ -410,34 +197,3 @@ export const cookieTypeConsentHandler = (cookieType: cookiesTypes, consented: bo
 };
 
 export const isValidDate = (date: unknown) => date instanceof Date && !isNaN(date.getTime());
-
-export const isOverflowed = (element: HTMLElement) =>
-    element.clientHeight + (isIe() ? 1 : 0) < element.scrollHeight;
-
-export const isVisible = (
-    element: HTMLElement,
-    container: HTMLElement | null = getPageScrollContainer()
-) => {
-    if (!element || !container) return;
-
-    const el = element.getBoundingClientRect();
-
-    if (!isElementInViewport(el)) return false;
-
-    const parent = container.getBoundingClientRect();
-
-    return (
-        el.bottom >= parent.top &&
-        el.right >= parent.left &&
-        el.top <= parent.bottom &&
-        el.left <= parent.right
-    );
-};
-
-export const isElementInViewport = (rect: DOMRect) =>
-    !(
-        rect.bottom < 0 ||
-        rect.right < 0 ||
-        rect.left > window.innerWidth ||
-        rect.top > window.innerHeight
-    );

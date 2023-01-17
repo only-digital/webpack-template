@@ -34,12 +34,6 @@ npm run page:remove <pageName>
 
 Чтобы увидеть изменения после создания/удаления страницы требуется перезапустить сборку, выполнив `npm run dev`.
 
-Страницы по умолчанию создаются без файла `scss`. Чтобы создать страницу со стилями, добавьте флаг `-scss`.
-
-```bash
-npm run page:create -scss <pageName> <pageTitle>
-```
-
 ### Компонент
 
 Для создания компонента введите (например, `npm run component:create header common`):

@@ -8,8 +8,6 @@ export const BREAKPOINTS = {
     FHD: 1920,
 };
 
-export const MAX_SEARCH_HISTORY = 8;
+export const IS_REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-export const DEBOUNCE_INTERVAL_MS = 150;
-
-export const REDUCE_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+export const IS_TOUCH_DEVICE = 'ontouchstart' in document;
