@@ -10,6 +10,18 @@
     }
 }
 
+@mixin with-option ($modifierName, $modifierValue: null) {
+    @if($modifierValue) {
+        &[data-#{$modifierName}=#{$modifierValue}] {
+            @content
+        }
+    } @else {
+        &[data-#{$modifierName}] {
+            @content
+        }
+    }
+}
+
 //TODO: Формулу расчета шрифтов надо перепроверить
 @mixin font($desktop-1920, $desktop-1440, $desktop-1280, $tablet-768, $mobile) {
     font-size: #{$mobile}px;
@@ -133,15 +145,3 @@
     }
 }
 
-@mixin with-modifier ($modifierName, $modifierValue) {
-    @if($modifierValue) {
-        &[data-#{$modifierName}=#{$modifierValue}] {
-            @content
-        }
-    } @else {
-        &[data-#{$modifierName}] {
-            @content
-        }
-    }
-
-}

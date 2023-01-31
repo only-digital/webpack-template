@@ -10,7 +10,7 @@
     background-color: #777777;
     cursor: not-allowed;
 
-    &[data-clickable] {
+    @include with-option(clickable) {
         background-color: #FF0000;
         cursor: pointer;
     }
