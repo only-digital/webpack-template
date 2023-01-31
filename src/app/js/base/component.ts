@@ -9,6 +9,10 @@ export interface ComponentObserveOptions extends IntersectionObserverInit {
     animateThreshold?: number;
 }
 
+export interface ComponentOptions {
+    component: string;
+}
+
 const defaultObserveOptions: ComponentObserveOptions = {
     rootMargin: '10px',
     threshold: [0, 0.0001, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],

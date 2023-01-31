@@ -1,11 +1,15 @@
-import Component, { ComponentProps } from '@/base/component';
+import Component, { ComponentProps, ComponentOptions } from '@/base/component';
+
+interface ${componentClassName}Options extends ComponentOptions {
+
+}
 
 export default class ${componentClassName} extends Component {
-    constructor(element: ComponentProps) {
+    constructor(element: ComponentProps, options?: ${componentClassName}Options) {
         super(element);
     }
 
     destroy = () => {
-        // Destroy functions
+        // Destroy function
     }
 }

@@ -1,0 +1,17 @@
+.example {
+    $root: &;
+
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000000;
+    background-color: #777777;
+    cursor: not-allowed;
+
+    &[data-clickable] {
+        background-color: #FF0000;
+        cursor: pointer;
+    }
+}

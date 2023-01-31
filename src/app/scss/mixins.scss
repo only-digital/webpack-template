@@ -132,3 +132,16 @@
         #{$property}: vw($desktop-1920);
     }
 }
+
+@mixin with-modifier ($modifierName, $modifierValue) {
+    @if($modifierValue) {
+        &[data-#{$modifierName}=#{$modifierValue}] {
+            @content
+        }
+    } @else {
+        &[data-#{$modifierName}] {
+            @content
+        }
+    }
+
+}

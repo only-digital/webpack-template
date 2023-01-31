@@ -61,7 +61,7 @@ try {
     const pugPath = pathFileExt(filePath, 'pug');
     fs.writeFileSync(
         pugPath,
-        `mixin ${componentName}(props)\n    .${componentName}&attributes(attributes)\n`
+        `mixin ${componentName}(props)\n    .${componentName}&attributes(attributes)(data-component='${componentName}')\n`
     );
 
     const scssPath = pathFileExt(filePath, 'scss');
