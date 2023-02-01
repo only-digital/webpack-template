@@ -1,7 +1,8 @@
 import Component, { ComponentProps, ComponentOptions } from '@/base/component';
 
 interface ExampleOptions extends ComponentOptions {
-    clickable?: string
+    clickable?: string;
+    text?: string;
 }
 
 /**
@@ -22,7 +23,7 @@ export default class Example extends Component {
     }
 
     clickHandler = () => {
-        alert('Example click');
+        alert(this.options?.text ?? 'Example text');
     }
 
     destroy = () => {
