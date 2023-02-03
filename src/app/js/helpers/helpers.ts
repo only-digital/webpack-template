@@ -38,7 +38,7 @@ export const getComponents = <T extends HTMLElement>(
 /**
  * @description Подписка на событие resize окна браузера
  * @param callback - обработчик события resize (может быть функцией или объектом из двух функций, отдельно для десктоп и мобилки)
- * @param options - Дополнительные настройки для события resize ()
+ * @param options - Дополнительные настройки для события resize
  */
 
 export const resize = (callback: ResizeCallback, options: ResizeOptions = {}) => {
@@ -59,7 +59,18 @@ export const resize = (callback: ResizeCallback, options: ResizeOptions = {}) =>
 }
 
 /**
- * Добавляет сторонний скрипт на страницу и позволяет выполнить действие после его загрузки или в случае ошибки
+ * @description Ожидание определенного количества времени перед продолжением выполнения скрипта
+ * @param timeMS - Время ожидания в миллисекундах
+ * @return Promise
+ * @example
+ * wait(500).then(someFunction)
+ */
+export const wait = async (timeMS: number): Promise<void> => {
+    return new Promise((resolve) => setTimeout(resolve, timeMS));
+}
+
+/**
+ * @description Добавляет сторонний скрипт на страницу и позволяет выполнить действие после его загрузки или в случае ошибки
  * @param src - расположение скрипта
  * @return Promise
  */
@@ -92,6 +103,19 @@ export const isIe = () => {
 };
 
 /**
+ * @description Проверка на браузер Safari
+ */
+export const isSafari = (): boolean => {
+    return !!~navigator.userAgent.indexOf('Safari') && !~navigator.userAgent.indexOf('Chrome');
+};
+
+/**
+ * @description Проверка значения на допустимую дату
+ * @param date - Предполагаемое значение типа Date
+ */
+export const isValidDate = (date: unknown) => date instanceof Date && !isNaN(date.getTime());
+
+/**
  * @description Установка css-переменной --vh
  * @description Переменная --vh используется в основном в мобильных устройствах
  */
@@ -109,21 +133,23 @@ export const matchesBreakpoint = (breakpoint: number) => {
 }
 
 /**
- * Дальше старое
- * @todo Надо разобрать и описать
+ * @description Находит элементы input c type="hidden" и сохраняет их данные в переданный объект FormData
+ * @param formData - объект FormData, куда будут сохранены данные
+ * @param target - HTMLElement, в котором будут найдены все input c type="hidden"
+ * @deprecated
  */
-
-export enum cookiesTypes {
-    acceptAnalytics = 'acceptAnalytics',
-    acceptSocial = 'acceptSocial',
-    acceptAds = 'acceptAds',
-}
-
 export const collectHiddenInputs = (formData: FormData, target: HTMLElement) => {
     const inputs: HTMLInputElement[] = Array.from(target.querySelectorAll('input[type="hidden"]'));
     inputs.forEach(({ name, value }) => formData.append(name, value));
 };
 
+/**
+ * @description Создает и вызывает кастомное событие
+ * @param name - название события
+ * @param data - данные, связанные с событием, будут доступны через event.detail
+ * @param element - элемент, на котором вызывается событие, по умолчанию - document
+ * @param shouldBubble - всплытие события - по умолчанию false
+ */
 export const emit = (
     name: string,
     data?: any,
@@ -143,6 +169,12 @@ export const emit = (
     element.dispatchEvent(evt);
 };
 
+/**
+ * @description Добавляет слушатель события на элемент
+ * @param name - название события
+ * @param handler - функция - обработчик события
+ * @param element - элемент, на который устанавливается слушатель события, по умолчанию - document
+ */
 export const listen = (
     name: string,
     handler: (e?: CustomEvent) => void,
@@ -151,6 +183,12 @@ export const listen = (
     element.addEventListener(name, handler as EventListener);
 };
 
+/**
+ * @description Удаляет слушатель события с элемента
+ * @param name - название события
+ * @param handler - функция - обработчик события
+ * @param element - элемент, с которого удаляется слушатель события, по умолчанию - document
+ */
 export const unlisten = (
     name: string,
     handler: (e?: CustomEvent) => void,
@@ -159,9 +197,26 @@ export const unlisten = (
     element.removeEventListener(name, handler as EventListener);
 };
 
+/** @todo Возможно работу с cookie стоит вынести в отдельный файл */
+export enum cookiesTypes {
+    acceptAnalytics = 'acceptAnalytics',
+    acceptSocial = 'acceptSocial',
+    acceptAds = 'acceptAds',
+}
+
+/**
+ * @description Проверяет, что использование переданного cookie разрешено(cookie присутствует и имеет значение "ok")
+ * @param cookieType - проверяемый cookie (из enum cookiesTypes)
+ * @return true, если использование переданного cookie разрешено, иначе false
+ */
 export const isCookiesTypeAllowed = (cookieType: cookiesTypes) =>
     !!cookie.parse(document.cookie)[cookiesTypes[cookieType]];
 
+/**
+ * @description Сохраняет переданный cookie и обновляет разрешения для Google tag(ad_storage, analytics_storage) и Яндекс метрики
+ * @param cookieType - сохраняемый cookie (из enum cookiesTypes)
+ * @param consented - true- согласие на использование cookie, false - запрет
+ */
 export const cookieTypeConsentHandler = (cookieType: cookiesTypes, consented: boolean) => {
     document.cookie = cookie.serialize(cookieType, consented ? 'ok' : 'no', {
         path: '/',
@@ -196,4 +251,3 @@ export const cookieTypeConsentHandler = (cookieType: cookiesTypes, consented: bo
     }
 };
 
-export const isValidDate = (date: unknown) => date instanceof Date && !isNaN(date.getTime());

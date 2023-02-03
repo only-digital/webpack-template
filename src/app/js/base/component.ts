@@ -19,8 +19,13 @@ const defaultObserveOptions: ComponentObserveOptions = {
     animateThreshold: 0
 }
 
+/**
+ * @description Базовый класс для работы с компонентами
+ */
 abstract class Component {
+    /** Корневой элемент компонента */
     public nRoot: HTMLElement;
+    /** Имя корневого элемента */
     public nRootName: string;
 
     protected constructor({name, component}: ComponentProps) {
@@ -28,14 +33,33 @@ abstract class Component {
         this.nRootName = name;
     }
 
-    public getElement = <T extends HTMLElement>(name: string): T | undefined => {
+    /**
+     * @description Поиск внутреннего элемента компонента в соответствии с правилами наименования элементов
+     * @param name - имя класса элемента после символов "__"
+     * @return HTMLElement
+     * @example
+     * this.getElement('button');
+     */
+    protected getElement = <T extends HTMLElement>(name: string): T | undefined => {
         return this.nRoot.querySelector<T>(`.${this.nRootName}__${name}`) ?? undefined;
     };
 
-    public getElements = <T extends HTMLElement>(name: string): T[] => {
+    /**
+     * @description Поиск внутренних элементов компонента в соответствии с правилами наименования элементов
+     * @param name - имя класса элемента после символов "__"
+     * @return HTMLElement[] - массив элементов с соответствующим классом, найденных внутри компонента
+     * @example
+     * this.getElements('button');
+     */
+    protected getElements = <T extends HTMLElement>(name: string): T[] => {
         return Array.from(this.nRoot.querySelectorAll(`.${this.nRootName}__${name}`));
     };
 
+    /**
+     * @description Отслеживание вхождения компонента в область видимости с помощью IntersectionObserver
+     * @param target - целевой элемент, который будет отслеживаться
+     * @param options - дополнительные параметры инициализации IntersectionObserver
+     */
     public observe = (target = this.nRoot, options = defaultObserveOptions) => {
         if (IS_REDUCE_MOTION) {
             this.onIntersection();

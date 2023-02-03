@@ -1,7 +1,7 @@
 import Component, {ComponentProps} from "@/base/component";
 
 abstract class BaseInput extends Component {
-    public classNames = {
+    static readonly classNames = {
         fill: '_fill',
         active: '_active',
         error: '_error',
@@ -10,10 +10,8 @@ abstract class BaseInput extends Component {
         required: '_required',
     };
 
-    public input: HTMLInputElement;
-
+    public readonly input: HTMLInputElement;
     public isValid: boolean;
-
     public isActive: boolean;
 
     protected constructor(element: ComponentProps) {
@@ -61,7 +59,7 @@ abstract class BaseInput extends Component {
     }
 
     public clear = (): void => {
-        this.nRoot.classList.remove(...Object.values(this.classNames));
+        this.nRoot.classList.remove(...Object.values(BaseInput.classNames));
         this.value = '';
         this.checked = false;
     };

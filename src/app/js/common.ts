@@ -22,8 +22,7 @@ if (window.gtag) {
     });
 }
 
-setVhCssVariable();
-resize(setVhCssVariable);
+resize(setVhCssVariable, { initial: true });
 
 barba.use(barbaPrefetch);
 
