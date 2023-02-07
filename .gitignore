@@ -10,6 +10,4 @@
 
 # dev environment
 /dev
-
-# temp-files
-/bloki-master*
+env.config.js

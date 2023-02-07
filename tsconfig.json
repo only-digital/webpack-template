@@ -2,8 +2,8 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "Recommended",
     "compilerOptions": {
-        "target": "ES2015",
-        "module": "commonjs",
+        "target": "ES6",
+        "module": "ES2020",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
@@ -21,7 +21,12 @@
             "@/variables/*": ["app/js/variables/*"],
             "@/types/*": ["app/types/*"],
             "@/components/*": ["components/*"],
-            "@/pages/*": ["pages/*"],
+            "@/pages/*": ["pages/*"]
+        }
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs"
         }
     }
 }

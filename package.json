@@ -4,13 +4,15 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "webpack serve --config ./webpack-config/webpack.dev.ts",
-        "build": "webpack --config ./webpack-config/webpack.prod.ts",
+        "dev": "webpack serve --config webpack-config/webpack.dev.ts",
+        "build": "webpack --config webpack-config/webpack.prod.ts",
+        "build:copy": "npm run build && npm run copy",
         "component:create": "node ./scripts/component/create.js",
         "component:remove": "node ./scripts/component/remove.js",
         "component:list": "node ./scripts/component/list.js",
         "page:create": "node ./scripts/page/create.js",
-        "page:remove": "node ./scripts/page/remove.js"
+        "page:remove": "node ./scripts/page/remove.js",
+        "copy": "node ./scripts/copy.js"
     },
     "author": "Only",
     "license": "ISC",
