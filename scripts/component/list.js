@@ -9,7 +9,7 @@ const showComponentsByType = (type) => {
     const components = fs.readdirSync(path.join(componentsPath, type), 'utf-8');
     if (!components.length) return;
     console.log(`[ ${colors.blue.bold(type)} ]`);
-    console.log(` - ${components.join('\n - ')}\n`)
+    console.log(` - ${components.join('\n - ')}\n`.replace(' - .gitkeep\n', ''))
 }
 
 const showAllComponents = () => {
