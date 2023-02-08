@@ -107,17 +107,21 @@ cp env.example.config.js env.config.js
 - `paths` - Массив путей для копирования всех вложенных файлов и папок. Элемент массива должен быть массивом из двух значений: исходной папки и целевой папки
 Например:
   ```javascript
-  paths: [
-      ['build/css', '../local/template/projectName/css'],
-      ['build/js', '../local/template/projectName/js'],
-      ['build/assets', '../assets']
-  ]
+  copy: {
+      paths: [
+          ['build/css', '../local/template/projectName/css'],
+          ['build/js', '../local/template/projectName/js'],
+          ['build/assets', '../assets']
+      ]
+  }
   ```
 - `options` - Дополнительные параметры
     - `clean` - Логическое значение, которое определяет необходимость очищения целевой директории перед копированием файлов
     Например:
   ```javascript
-  options: {
-      clean: true
+  copy: {
+      options: {
+          clean: true
+      }
   }
   ```
