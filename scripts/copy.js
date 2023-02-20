@@ -68,9 +68,9 @@ function copySrcToTarget(src, target) {
 
 try {
     config.paths.forEach(function(targetDir, srcDir) {
-        console.log(`${colors.blue('Copying files from')} ${colors.cyan(srcDir)} ${colors.blue('to')} ${colors.cyan(targetDir)}`);
         try {
             copySrcToTarget(srcDir, targetDir);
+            console.log(`${colors.blue('Copying files from')} ${colors.cyan(srcDir)} ${colors.blue('to')} ${colors.cyan(targetDir)}`);
         } catch (e) {
             console.log(`${colors.red('Copying files from')} ${colors.bgRed(srcDir)} ${colors.red('to')} ${colors.bgRed(targetDir)} ${colors.red('failed with error')}`);
             throw new Error(e);
