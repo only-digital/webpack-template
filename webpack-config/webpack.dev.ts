@@ -55,7 +55,7 @@ const developmentConfig: Configuration = {
     devServer: {
         port: PORT,
         hot: true,
-        open: true,
+        open: false
     },
     plugins: [
         new MiniCssExtractPlugin({

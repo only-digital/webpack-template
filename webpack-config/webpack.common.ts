@@ -21,6 +21,18 @@ const config: Configuration =  {
     entry: {
         common: './src/app/js/common.ts',
     },
+    optimization: {
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        }
+    },
     module: {
         rules: [
             {

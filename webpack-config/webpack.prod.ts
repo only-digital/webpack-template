@@ -7,7 +7,7 @@ import commonConfig from './webpack.common';
 const productionConfig: Configuration = {
     mode: 'production',
     output: {
-        filename: 'js/[name].[chunkhash].js',
+        filename: 'js/[name].[contenthash].js',
         path: path.resolve(__dirname, '..', 'build'),
         publicPath: './',
     },
@@ -51,7 +51,7 @@ const productionConfig: Configuration = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'css/[name].[chunkhash].css',
+            filename: 'css/[name].[contenthash].css',
             chunkFilename: 'css/[id].css',
         }),
     ],
