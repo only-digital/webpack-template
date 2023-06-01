@@ -5,7 +5,7 @@
         @include font(16, 12, 11, 11, 11);
         line-height: 1.1;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         color: rgba($copyright-only, 0.5);
 
         svg {
