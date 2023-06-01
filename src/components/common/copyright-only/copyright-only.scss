@@ -40,5 +40,11 @@
                 margin-left: vw(4);
             }
         }
+
+        &:hover {
+            svg {
+                opacity: 1;
+            }
+        }
     }
 }
