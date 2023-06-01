@@ -41,9 +41,11 @@
             }
         }
 
-        &:hover {
-            svg {
-                opacity: 1;
+        @media (hover: hover) {
+            &:hover {
+                svg {
+                    opacity: 1;
+                }
             }
         }
     }
