@@ -12,25 +12,25 @@
             fill: $white;
             stroke: $white;
             opacity: 0.6;
-            height: vw(12, 'xs');
+            height: vw(11, 'xs');
             width: vw(34, 'xs');
             margin-left: vw(4, 'xs');
 
             @include media-breakpoint-up(md) {
                 width: vw(34, 'md');
-                height: vw(12, 'md');
+                height: vw(11, 'md');
                 margin-left: vw(4, 'md');
             }
 
             @include media-breakpoint-up(xl) {
-                width: vw(34, 'xl');
-                height: vw(12, 'xl');
+                width: vw(32, 'xl');
+                height: vw(11, 'xl');
                 margin-left: vw(4, 'xl');
             }
 
             @include media-breakpoint-up(xxl) {
-                width: vw(32, 'xxl');
-                height: vw(14, 'xxl');
+                width: vw(36, 'xxl');
+                height: vw(12, 'xxl');
                 margin-left: vw(4, 'xxl');
             }
 
