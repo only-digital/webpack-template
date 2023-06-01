@@ -1,0 +1,44 @@
+.copyright-only {
+    $root: &;
+
+    a {
+        @include font(16, 12, 11, 11, 11);
+        line-height: 1.1;
+        display: flex;
+        align-items: center;
+        color: rgba($copyright-only, 0.5);
+
+        svg {
+            fill: $white;
+            stroke: $white;
+            opacity: 0.6;
+            height: vw(12, 'xs');
+            width: vw(34, 'xs');
+            margin-left: vw(4, 'xs');
+
+            @include media-breakpoint-up(md) {
+                width: vw(34, 'md');
+                height: vw(12, 'md');
+                margin-left: vw(4, 'md');
+            }
+
+            @include media-breakpoint-up(xl) {
+                width: vw(34, 'xl');
+                height: vw(12, 'xl');
+                margin-left: vw(4, 'xl');
+            }
+
+            @include media-breakpoint-up(xxl) {
+                width: vw(32, 'xxl');
+                height: vw(14, 'xxl');
+                margin-left: vw(4, 'xxl');
+            }
+
+            @include media-breakpoint-up(fhd) {
+                width: vw(48);
+                height: vw(16);
+                margin-left: vw(4);
+            }
+        }
+    }
+}
