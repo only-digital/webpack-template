@@ -22,6 +22,14 @@
     }
 }
 
+@mixin hover() {
+    @media (hover: hover) {
+        &:hover {
+            @content
+        }
+    }
+}
+
 //TODO: Формулу расчета шрифтов надо перепроверить
 @mixin font($desktop-1920, $desktop-1440, $desktop-1280, $tablet-768, $mobile) {
     font-size: #{$mobile}px;
