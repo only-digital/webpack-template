@@ -6,14 +6,14 @@
     position: relative;
     color: inherit;
     width: auto;
-    opacity: 1;
-    transition: opacity 0.3s, color 0.3s;
 
     // Высота должна равняться значению line-height шрифта
      height: 1em; // Значение по умолчанию для line-height: 1;
 
     @include hover {
-        opacity: 0.6;
+        svg path:first-child {
+            opacity: 0.6;
+        }
     }
 
     svg {
@@ -22,5 +22,10 @@
         fill: currentColor;
         user-select: none;
         pointer-events: none;
+
+        path:first-child {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
     }
 }
