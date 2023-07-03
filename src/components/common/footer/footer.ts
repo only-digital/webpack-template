@@ -1,11 +1,11 @@
 import Component, { ComponentProps } from '@/base/component';
 
-export default class Footer extends Component {
-    constructor(element: ComponentProps) {
+export default class Footer extends Component<HTMLElement> {
+    constructor(element: ComponentProps<HTMLElement>) {
         super(element);
     }
 
-    destroy = () => {
+    destroy() {
         // Destroy functions
     };
 }

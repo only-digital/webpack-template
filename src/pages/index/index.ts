@@ -20,10 +20,9 @@ export default {
                     return new allComponents[component.dataset.component!]({
                         name: component.dataset.component,
                         component: component,
-                    }, { ...component.dataset });
+                    });
                 } catch (e: any) {
-                    console.error(`Ошибка во время инициализации компонента: ${component.dataset.component}`);
-                    console.error(e);
+                    console.error(`Ошибка во время инициализации компонента: ${component.dataset.component}\n\n${e}`);
                 }
             });
 
@@ -39,8 +38,7 @@ export default {
             try {
                 component.destroy()
             } catch (e: any) {
-                console.error(`Ошибка во время удаления компонента: ${component.nRootName}`);
-                console.error(e);
+                console.error(`Ошибка во время удаления компонента: ${component.nRootName}\n\n${e}`);
             }
         })
         this.components = [];

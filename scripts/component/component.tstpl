@@ -1,15 +1,15 @@
-import Component, { ComponentProps, ComponentOptions } from '@/base/component';
+import Component, { ComponentProps } from '@/base/component';
 
-interface ${componentClassName}Options extends ComponentOptions {
+type ${componentClassName}Options = {
 
 }
 
-export default class ${componentClassName} extends Component {
-    constructor(element: ComponentProps, options?: ${componentClassName}Options) {
+export default class ${componentClassName} extends Component<HTMLElement, ${componentClassName}Options> {
+    constructor(element: ComponentProps<HTMLElement>) {
         super(element);
     }
 
-    destroy = () => {
+    destroy() {
         // Destroy function
     }
 }

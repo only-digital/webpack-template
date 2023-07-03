@@ -1,16 +1,12 @@
 import { IS_REDUCE_MOTION } from '@/variables/variables';
 
-export type ComponentProps<T = HTMLElement> = {
+export type ComponentProps<T extends HTMLElement = HTMLElement> = {
     name: string;
     component: T;
 };
 
 export interface ComponentObserveOptions extends IntersectionObserverInit {
     animateThreshold?: number;
-}
-
-export interface ComponentOptions {
-    component: string;
 }
 
 const defaultObserveOptions: ComponentObserveOptions = {
@@ -22,15 +18,21 @@ const defaultObserveOptions: ComponentObserveOptions = {
 /**
  * @description Базовый класс для работы с компонентами
  */
-abstract class Component {
     /** Корневой элемент компонента */
-    public nRoot: HTMLElement;
+abstract class Component<T extends HTMLElement, K extends Record<string, string | undefined> = {}> {
+    public nRoot: T;
     /** Имя корневого элемента */
     public nRootName: string;
+    /** Доп. параметры передаваемые в data-атрибутах */
+    public options: K;
 
-    protected constructor({name, component}: ComponentProps) {
+    protected constructor({name, component}: ComponentProps<T>) {
         this.nRoot = component;
         this.nRootName = name;
+        this.options = <K>{...component.dataset};
+        delete this.options.component;
+
+        this.destroy = this.destroy.bind(this);
     }
 
     /**
@@ -85,9 +87,9 @@ abstract class Component {
         this.nRoot.classList.add('animate');
     };
 
-    public destroy = () => {
+    public destroy() {
 
-    };
+    }
 }
 
 export default Component;
