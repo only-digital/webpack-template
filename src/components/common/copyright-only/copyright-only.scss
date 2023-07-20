@@ -1,0 +1,31 @@
+// Элемент зависит от размеров текста
+// Для корректной работы необходимо установить typography-классы в соответствии с макетом
+// Классы устанавливаются на родительский или на текущий элемент
+.copyright-only {
+    display: inline-block;
+    position: relative;
+    color: inherit;
+    width: auto;
+
+    // Высота должна равняться значению line-height шрифта
+     height: 1em; // Значение по умолчанию для line-height: 1;
+
+    @include hover {
+        svg path:first-child {
+            opacity: 0.6;
+        }
+    }
+
+    svg {
+        width: auto;
+        height: 100%;
+        fill: currentColor;
+        user-select: none;
+        pointer-events: none;
+
+        path:first-child {
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+    }
+}

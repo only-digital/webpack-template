@@ -1,9 +1,11 @@
 import Component, { ComponentProps } from '@/base/component';
 
-export default class Header extends Component {
-    constructor(element: ComponentProps) {
+export default class Header extends Component<HTMLElement> {
+    constructor(element: ComponentProps<HTMLElement>) {
         super(element);
     }
 
-    destroy = () => {};
+    destroy() {
+        // Destroy functions
+    };
 }
