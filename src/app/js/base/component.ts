@@ -18,8 +18,8 @@ const defaultObserveOptions: ComponentObserveOptions = {
 /**
  * @description Базовый класс для работы с компонентами
  */
-    /** Корневой элемент компонента */
 abstract class Component<T extends HTMLElement, K extends Record<string, string | undefined> = {}> {
+    /** Корневой элемент компонента */
     public nRoot: T;
     /** Имя корневого элемента */
     public nRootName: string;
