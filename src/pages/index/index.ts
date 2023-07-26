@@ -3,13 +3,13 @@ import Component from '@/base/component';
 import Example from '@/components/ui/example/example';
 
 // Набор всех компонентов, для которых будет применяться стандартная инициализация
-const allComponents: Record<string, any & Component> = {
+const allComponents: Record<string, any & Component<HTMLElement>> = {
     example: Example,
 };
 
 export default {
     namespace: 'common',
-    components: <Component[]>[],
+    components: <Component<HTMLElement>[]>[],
     async beforeEnter({ next: { container, url } }: ITransitionData) {
         try {
             // Стандартная инициализация компонентов
