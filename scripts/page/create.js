@@ -63,7 +63,7 @@ try {
         const pugPath = pathFileExt(filePath, 'pug');
         fs.writeFile(
             pugPath,
-            `extends ../../app/pug/layout\n\nblock title\n    | ${pageTitle}\n\nblock content\n    div(data-barba="container" data-barba-namespace="common" data-page-namespace="${pageName}").content-wrapper\n        h1 ${pageName}\n\n        +footer`,
+            `extends ../../app/pug/layout\n\nblock title\n    | ${pageTitle}\n\nblock content\n    div(data-barba="container" data-barba-namespace="common" data-page-namespace="${pageName}").content-wrapper\n        h1 ${pageName}\n\n`,
             (err) => {
                 if (err) throw new Error(err.message);
                 progressLog(`Генерация ${pageName}.pug`);

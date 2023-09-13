@@ -10,7 +10,7 @@ const getPages = (): HtmlWebpackPlugin[] => {
     console.log(`[ ${colors.blue.bold('PAGES')} ]`);
 
     const pages = views.map((view) => {
-        console.log(`• http://localhost:3000/${view}.html`);
+        console.log(`• http://localhost:3000/${view}`);
         return new HtmlWebpackPlugin({
             filename: `${view}.html`,
             template: `./src/pages/${view}/${view}.pug`,
