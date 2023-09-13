@@ -1,6 +1,6 @@
 import Component, {ComponentProps} from "@/base/component";
 
-abstract class BaseInput extends Component {
+abstract class BaseInput extends Component<HTMLElement> {
     static readonly classNames = {
         fill: '_fill',
         active: '_active',
@@ -20,6 +20,8 @@ abstract class BaseInput extends Component {
         this.isValid = true;
         this.isActive = false;
         this.input = this.nRoot.querySelector('input')!;
+
+        this.clear = this.clear.bind(this);
     }
 
     get name(): string {
@@ -58,7 +60,7 @@ abstract class BaseInput extends Component {
         return this.input.disabled;
     }
 
-    public clear = (): void => {
+    public clear(): void {
         this.nRoot.classList.remove(...Object.values(BaseInput.classNames));
         this.value = '';
         this.checked = false;
