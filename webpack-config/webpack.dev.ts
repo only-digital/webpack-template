@@ -3,6 +3,7 @@ import { merge } from 'webpack-merge';
 import path from 'path';
 import commonConfig from './webpack.common';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import getProxy from "./proxy";
 
 const PORT = 3000;
 
@@ -55,7 +56,8 @@ const developmentConfig: Configuration = {
     devServer: {
         port: PORT,
         hot: true,
-        open: false
+        open: false,
+        proxy: getProxy()
     },
     plugins: [
         new MiniCssExtractPlugin({
