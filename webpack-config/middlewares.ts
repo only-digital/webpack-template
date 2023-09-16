@@ -38,7 +38,7 @@ const middlewares = ({ app: devServer }: { app: Application }) =>  {
 
         devServer.use(apiRoute, (req, res) => {
             res.status(status);
-            res.json(body);
+            res.json({body: body});
         })
 
         console.log(`• http://localhost:${config.port}${apiRoute}`);

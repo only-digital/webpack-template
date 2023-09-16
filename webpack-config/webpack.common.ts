@@ -8,17 +8,6 @@ import getPages from './pages';
 import createDataJson from './dataJson';
 import fs from "fs";
 
-const configEnv = {
-    basePath: './src/assets/mock-api',
-    baseRoute: '/mock-api',
-}
-
-if (fs.existsSync('env.config.js')) {
-    const envConfig = require('../env.config').devServer || {};
-    configEnv.basePath = path.format(path.parse(path.resolve(__dirname, '..', envConfig.middleware.basePath || configEnv.basePath)));
-    configEnv.baseRoute = envConfig.middleware.baseRoute || configEnv.baseRoute;
-}
-
 console.log(`[ ${colors.green.bold('START')} ] Сборка проекта\n`);
 
 const pages = getPages();
@@ -183,11 +172,6 @@ const config: Configuration =  {
             patterns: [
                 {
                     from: 'dev',
-                    noErrorOnMissing: true,
-                },
-                {
-                    from: configEnv.basePath,
-                    to: path.join('./', configEnv.baseRoute),
                     noErrorOnMissing: true,
                 }
             ],
