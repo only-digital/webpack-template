@@ -11,3 +11,4 @@
 # dev environment
 /dev
 env.config.js
+/scripts/**/*.txt

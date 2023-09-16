@@ -1,0 +1,10 @@
+{
+    "verbose": true,
+    "watch": [
+        "./webpack-config/",
+        "./src/assets/mock-api/",
+        "./src/assets/data/",
+        "./scripts/**/*.txt"
+    ],
+    "ext": "ts, json, txt"
+}
