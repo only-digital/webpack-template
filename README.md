@@ -105,7 +105,6 @@ cp env.example.config.js env.config.js
 #### copy
 Параметры копирования файлов
 - `paths` - Массив путей для копирования всех вложенных файлов и папок. Элемент массива должен быть массивом из двух значений: исходной папки и целевой папки
-Например:
   ```javascript
   module.exports = {
       copy: {
@@ -119,7 +118,6 @@ cp env.example.config.js env.config.js
   ```
 - `options` - Дополнительные параметры
     - `clean` - Логическое значение, которое определяет необходимость очищения целевой директории перед копированием файлов
-    Например:
   ```javascript
   module.exports = {
       copy: {
@@ -133,7 +131,6 @@ cp env.example.config.js env.config.js
 #### devServer
 Дополнительные параметры для webpack-dev-server
 - `port` - Порт, на котором будет запущен локальный сервер
-  Например:
   ```javascript
   module.exports = {
       devServer: {
@@ -145,8 +142,7 @@ cp env.example.config.js env.config.js
 - `middleware` - Настройки middlewares для локального сервера
     - `delayMS` - Задержка ответа от сервера при работе c mock-api
     - `basePath` - Путь к папке, в которой содержаться json файлы для mock-api
-    - `baseRoute` - Адрес по которому будут обрабатваться запросы к mock-api
-  Например:
+    - `baseRoute` - Адрес по которому будут обрабатваться запросы к mock-api  
   ```javascript
   module.exports = {
       devServer: {
