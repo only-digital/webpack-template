@@ -6,7 +6,7 @@ const config = {
 
 if (fs.existsSync('env.config.js')) {
     const envConfig = require('../env.config').devServer || {};
-    config.baseRoute = envConfig.middleware.baseRoute || config.baseRoute;
+    config.baseRoute = envConfig.middleware?.baseRoute || config.baseRoute;
 }
 
 const proxy = {

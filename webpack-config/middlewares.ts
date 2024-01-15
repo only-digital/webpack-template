@@ -12,9 +12,9 @@ const config = {
 
 if (fs.existsSync('env.config.js')) {
     const envConfig = require('../env.config').devServer || {};
-    config.delayMS = envConfig.middleware.delayMS || config.delayMS;
-    config.basePath = path.format(path.parse(path.resolve(__dirname, '..', envConfig.middleware.basePath || config.basePath)));
-    config.baseRoute = envConfig.middleware.baseRoute || config.baseRoute;
+    config.delayMS = envConfig.middleware?.delayMS || config.delayMS;
+    config.basePath = path.format(path.parse(path.resolve(__dirname, '..', envConfig.middleware?.basePath || config.basePath)));
+    config.baseRoute = envConfig.middleware?.baseRoute || config.baseRoute;
     config.port = envConfig.port || config.port;
 }
 
