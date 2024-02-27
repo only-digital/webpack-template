@@ -6,21 +6,24 @@ import common from '@/pages/index/index';
 import {emit, resize} from '@/helpers/helpers';
 import { cookiesTypes, setVhCssVariable } from '@/helpers/helpers';
 import cookie from 'cookie';
+import OnlyScrollbar from "only-scrollbar";
 
 // SVG
 const requireAll = (r: __WebpackModuleApi.RequireContext) => r.keys().forEach(r);
 requireAll(require.context('../../assets/icons', true, /\.svg$/));
 
-if (window.gtag) {
-    window.gtag('consent', 'update', {
-        analytics_storage:
-            cookie.parse(document.cookie)[cookiesTypes.acceptAnalytics] === 'ok'
-                ? 'granted'
-                : 'denied',
-        ad_storage:
-            cookie.parse(document.cookie)[cookiesTypes.acceptAds] === 'ok' ? 'granted' : 'denied',
-    });
-}
+export const scroll = new OnlyScrollbar()
+
+// if (window.gtag) {
+//     window.gtag('consent', 'update', {
+//         analytics_storage:
+//             cookie.parse(document.cookie)[cookiesTypes.acceptAnalytics] === 'ok'
+//                 ? 'granted'
+//                 : 'denied',
+//         ad_storage:
+//             cookie.parse(document.cookie)[cookiesTypes.acceptAds] === 'ok' ? 'granted' : 'denied',
+//     });
+// }
 
 resize(setVhCssVariable, { initial: true });
 
