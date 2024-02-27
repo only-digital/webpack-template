@@ -12,7 +12,7 @@ import OnlyScrollbar from "only-scrollbar";
 const requireAll = (r: __WebpackModuleApi.RequireContext) => r.keys().forEach(r);
 requireAll(require.context('../../assets/icons', true, /\.svg$/));
 
-export const scroll = new OnlyScrollbar()
+export const scroll = new OnlyScrollbar(window)
 
 // if (window.gtag) {
 //     window.gtag('consent', 'update', {
